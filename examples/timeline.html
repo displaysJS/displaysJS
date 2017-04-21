@@ -6,9 +6,97 @@
     <script src="../dist/js/displays.js" charset="utf-8"></script>
   </head>
   <body>
-      <h1>Hello, World!</h1>
+      <h1>Time [<i id="counter"></i>]: <i id="message"></i></h1>
+      <br />
+      <p>In this example we create a timeline object and populate it
+      with time actions for when it's divisible by 5 in which case it's Fancy.
+      Otherwise if it's divisible by 3 it's just a regular mutiple of 3.
+      After creating the timeline, we start a time counter from 0 to 100 every second
+      during which we do a 'callTimeAction' on the timeline object.
+      <br />
+      <code><pre>
+        function printReg() {
+          document.getElementById("message").innerText = "Regular multiple of 3";
+        };
+        function printFancy(num) {
+          document.getElementById("message").innerText = "Fancy => " + num;
+        };
+
+        <strong>var timeline = new Timeline({name:"TimeCounter"});</strong>
+
+        var t=0;
+        var counter=null;
+        function tick() {
+          document.getElementById("message").innerText =  "";
+          document.getElementById("counter").innerText = t;
+          timeline.callTimeAction(t);
+          t+=1;
+          if (t > 100) {
+            clearInterval(counter);
+          }
+          //timeline.callNearestTimeAction(t);
+        }
+        
+        /** Generate timeline **/
+        for (var i = 0; i <= 100; i++) {
+          if ((i % 5) == 0) {
+            timeline.addTimeAction(i, printFancy, i, "Multipleof5s");
+          } else if((i % 3) == 0) {
+            timeline.addTimeAction(i, printReg);
+          }
+        }
+
+        /** Start time counter **/
+        function startTimeCounter() {
+          counter = setInterval(tick, 1000);
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+          startTimeCounter();
+        });
+        </pre>
+      </code>
+    </p>
       <script type="text/javascript">
-        Timeline()
+      function printReg() {
+        document.getElementById("message").innerText = "Regular multiple of 3";
+      };
+      function printFancy(num) {
+        document.getElementById("message").innerText = "Fancy => " + num;
+      };
+
+      var timeline = new Timeline({name:"TimeCounter"});
+
+      var t=0;
+      var counter=null;
+      function tick() {
+        document.getElementById("message").innerText =  "";
+        document.getElementById("counter").innerText = t;
+        timeline.callTimeAction(t);
+        t+=1;
+        if (t > 100) {
+          clearInterval(counter);
+        }
+        //timeline.callNearestTimeAction(t);
+      }
+      /** Generate timeline **/
+      for (var i = 0; i <= 100; i++) {
+        if ((i % 5) == 0) {
+          timeline.addTimeAction(i, printFancy, i, "Multipleof5s");
+        } else if((i % 3) == 0) {
+          timeline.addTimeAction(i, printReg);
+        }
+      }
+
+      /** Start time counter **/
+      function startTimeCounter() {
+        counter = setInterval(tick, 1000);
+      }
+
+      document.addEventListener("DOMContentLoaded", function() {
+        startTimeCounter();
+      });
+
       </script>
   </body>
 </html>

@@ -46,10 +46,114 @@ module.exports = hello;
 },{}],4:[function(require,module,exports){
 "use strict";
 
-var hello = function hello() {
-  console.log("Hello world");
-};
-module.exports = hello;
+var _createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  };
+}();
+
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+var NOT_FOUND = "NOTFOUND";
+
+var TimeAction = function () {
+  function TimeAction(func, args) {
+    var name = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "undefined";
+
+    _classCallCheck(this, TimeAction);
+
+    this.action = func;
+    this.args = args;
+    this.name = name;
+  }
+
+  _createClass(TimeAction, [{
+    key: "toString",
+    value: function toString() {
+      return 'TimeAction:(' + this.name + ')';
+    }
+  }, {
+    key: "trigger",
+    value: function trigger() {
+      this.action.apply(this, this.args);
+    }
+  }]);
+
+  return TimeAction;
+}();
+
+var Timeline = function () {
+  function Timeline(args) {
+    _classCallCheck(this, Timeline);
+
+    this.time_actions = {};
+    this.name = args.name || "undefined";
+    this.treshold = args.treshold || 5;
+  }
+
+  _createClass(Timeline, [{
+    key: "toString",
+    value: function toString() {
+      return '(' + this.name + ')';
+    }
+  }, {
+    key: "addTimeAction",
+    value: function addTimeAction(time, action) {
+      var args = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+      var name = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "undefined";
+
+      if (!(Object.prototype.toString.call(args) === '[object Array]')) {
+        args = [args];
+      }
+      this.time_actions[time] = new TimeAction(action, args, name);
+    }
+  }, {
+    key: "callTimeAction",
+    value: function callTimeAction(time) {
+      if (this.time_actions.hasOwnProperty(time)) {
+        this.time_actions[time].trigger();
+      }
+    }
+  }, {
+    key: "callNearestTimeAction",
+    value: function callNearestTimeAction(time) {
+      var t;
+      if (this.time_actions.hasOwnProperty(time)) {
+        t = time;
+      } else {
+        t = this.getNearestTime(time);
+      }
+
+      if (!(t == NOT_FOUND) && this.time_actions.hasOwnProperty(t)) {
+        this.time_actions[t].trigger();
+      }
+    }
+  }, {
+    key: "getNearestTime",
+    value: function getNearestTime(time) {
+      for (var i = 1; i < this.treshold; i++) {
+        if (this.time_actions.hasOwnProperty(time + i)) {
+          return time + 1;
+        } else if (this.time_actions.hasOwnProperty(time - i)) {
+          return time - 1;
+        }
+      }
+      return NOT_FOUND;
+    }
+  }]);
+
+  return Timeline;
+}();
+
+module.exports = Timeline;
 
 },{}]},{},[1])
 
