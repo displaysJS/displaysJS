@@ -30,12 +30,110 @@ var Display = require("./lib/display.js");
 },{"./lib/display.js":2,"./lib/display_coordinator.js":3,"./lib/timeline.js":4}],2:[function(require,module,exports){
 "use strict";
 
-var hello = function hello() {
-  console.log("Hello world");
-};
-module.exports = hello;
+var _createClass = function () {
+  function defineProperties(target, props) {
+    for (var i = 0; i < props.length; i++) {
+      var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+    }
+  }return function (Constructor, protoProps, staticProps) {
+    if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+  };
+}();
 
-},{}],3:[function(require,module,exports){
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
+
+var Timeline = require("./timeline.js");
+var MODES = { NORMAL: 0, USER: 1 };
+
+var Display = function () {
+  function Display(args) {
+    _classCallCheck(this, Display);
+
+    this.context = args.context || undefined;
+    this.name = args.name || "undefined";
+    this.timeline = new Timeline({ name: this.name + "-timeline",
+      treshold: args.timeline_treshold });
+    this.primary_display = args.primary_display || false;
+    this.mode = MODES.NORMAL;
+    this.m_ready = false;
+    if (this.context != undefined) {
+      this.context.emitter.on("tick", handleTick);
+    }
+  }
+
+  _createClass(Display, [{
+    key: "toString",
+    value: function toString() {
+      return '(' + this.name + ')';
+    }
+  }, {
+    key: "ready",
+    value: function ready() {
+      this.m_ready;
+    }
+  }, {
+    key: "setCoordinatorTicker",
+    value: function setCoordinatorTicker(tick_func) {
+      this.coordinator_ticker = tick_func;
+    }
+  }, {
+    key: "isPrimaryDisplay",
+    value: function isPrimaryDisplay() {
+      if (this.primary_display) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }, {
+    key: "tick",
+    value: function tick() {
+      if (this.isPrimaryDisplay) {
+        this.coordinator_ticker();
+      }
+    }
+  }, {
+    key: "enableUserMode",
+    value: function enableUserMode() {
+      return this.mode = MODES.USER;
+    }
+  }, {
+    key: "releaseUserMode",
+    value: function releaseUserMode() {
+      return this.mode = MODES.NORMAL;
+    }
+  }, {
+    key: "isInUserMode",
+    value: function isInUserMode() {
+      if (this.mode == MODES.USER) {
+        return true;
+      }
+      return false;
+    }
+  }, {
+    key: "handleTick",
+    value: function handleTick() {}
+  }, {
+    key: "render",
+    value: function render() {}
+  }, {
+    key: "start",
+    value: function start() {}
+  }, {
+    key: "pause",
+    value: function pause() {}
+  }]);
+
+  return Display;
+}();
+
+module.exports = Display;
+
+},{"./timeline.js":4}],3:[function(require,module,exports){
 "use strict";
 
 var hello = function hello() {
