@@ -1,162 +1,204 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>displaysJS example | Display </title>
-    <script src="../dist/js/displays.js" charset="utf-8"></script>
-    <style>
-      .funky {
-        border: 1px solid blue;
-        min-width: 100px;
-        min-height: 50px;
-      }
+<html lang="en">
+<head>
 
-      .funky a {
-        color: red;
-        text-decoration: underline;
-      }
-    </style>
-  </head>
-  <body>
-      <br />
-      <p>In this example we create a TextDisplay object.
-        We define a text_canvas and then make sure it's rendered on start up.
-        We then populate it's timeline with time actions.
-        When the dom is ready, we start the timeline from 0 to 100, the counter changing
-        every second.
-      <br />
-      <code><pre>
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>displaysJS example | Display</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-        var TextDisplay = new Display({});
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        TextDisplay.text_canvas = document.createElement('div');
-        TextDisplay.text_canvas.setAttribute('id', 'textdisplay0');
-        TextDisplay.text_canvas.setAttribute('class', 'funky');
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
 
-        TextDisplay.showRichText = function(td, text){
-          td.text_canvas.innerHTML = text;
-        }
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="/css/normalize.css">
+  <link rel="stylesheet" href="/css/skeleton.css">
 
-        TextDisplay.showText = function(td, text){
-          td.text_canvas.innerText = text;
-        }
+  <style>
+    .funky {
+      border: 1px solid blue;
+      min-width: 100px;
+      min-height: 50px;
+    }
 
-        TextDisplay.clearText = function(){
-          this.text_canvas.innerHTML = "";
-        }
+    .funky a {
+      color: red;
+      text-decoration: underline;
+    }
+  </style>
+  <!-- JS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="/js/displays.js" charset="utf-8"></script>
+  <script src="/js/jquery-3.2.1.min.js" charset="utf-8"></script>
 
-        TextDisplay.prepareTimeline = function(timeline) {
-          this.timeline.addTimeAction(0, this.showText, [TextDisplay, "Hello World"], name="welcome-message");
-          this.timeline.addTimeAction(5, this.showText, [TextDisplay, "It should be at 5 now"]);
-          this.timeline.addTimeAction(7, this.showText, [TextDisplay, "&lt;h1&gt;HEYO!!!!!&lt;/h1&gt;"]);
-          this.timeline.addTimeAction(9, this.showRichText, [TextDisplay, "&lt;h1&gt;HEYO!!!!!&lt;/h1&gt;"]);
-          this.timeline.addTimeAction(11, this.showRichText, [TextDisplay, "&lt;h1&gt;&lt;a href='https://github.com/displaysJS'&gt;We code&lt;/a&gt;HEYO!!!!!&lt;/h1&gt;"]);
-          this.timeline.addTimeAction(20, this.showRichText, [TextDisplay, '&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/cUYSGojUuAU" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;']);
-          this.timeline.addTimeAction(60, this.showRichText, [TextDisplay, '&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/jq-mwUVk5ho" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;']);
-          this.timeline.addTimeAction(77, this.showText, [TextDisplay, "Sorry it's gone!"]);
-          this.timeline.addTimeAction(80, this.showRichText, [TextDisplay, '&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/ji51y8ALuQ8" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;']);
-        }
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
 
-        TextDisplay.handleTick = function(t){
-          //normaly time would be available through the context.
-          this.timeline.callTimeAction(t);
-        }
+</head>
+<body>
 
-        TextDisplay.start = function(){
-          this.prepareTimeline();
-        }
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="row">
+        <h3><a href="/">The Components</a> -
+            <a href="/coordinator.html">DisplayCoordinator</a> -
+            <a href="/timeline.html">Timeline</a>
+        </h3>
+        <h4>Display example</h4>
+        <div id="display-container"></div>
+        <br />
+        <p>In this example we create a TextDisplay object.
+          We define a text_canvas and then make sure it's rendered on start up.
+          We then populate it's timeline with time actions.
+          When the dom is ready, we start the timeline from 0 to 100, the counter changing
+          every second.</p>
+        <br />
+        <pre><code>
 
-        TextDisplay.render = function(){
-          document.body.append(this.text_canvas);
-        }
+          var TextDisplay = new Display({});
 
-        var t=0;
-        var counter=null;
-        function tick() {
-          TextDisplay.handleTick(t);
-          t+=1;
-          if (t > 100) {
-            clearInterval(counter);
+          TextDisplay.text_canvas = document.createElement('div');
+          TextDisplay.text_canvas.setAttribute('id', 'textdisplay0');
+          TextDisplay.text_canvas.setAttribute('class', 'funky');
+
+          TextDisplay.showRichText = function(td, text){
+            td.text_canvas.innerHTML = text;
           }
-        }
 
-        /** Start time counter **/
-        function startTimeCounter() {
-          counter = setInterval(tick, 1000);
-        }
+          TextDisplay.showText = function(td, text){
+            td.text_canvas.innerText = text;
+          }
 
-        document.addEventListener("DOMContentLoaded", function() {
-          TextDisplay.start();
-          TextDisplay.render();
-          startTimeCounter();
-        });
+          TextDisplay.clearText = function(){
+            this.text_canvas.innerHTML = "";
+          }
+
+          TextDisplay.prepareTimeline = function(timeline) {
+            this.timeline.addTimeAction(0, this.showText, [TextDisplay, "Hello World"], name="welcome-message");
+            this.timeline.addTimeAction(5, this.showText, [TextDisplay, "It should be at 5 now"]);
+            this.timeline.addTimeAction(7, this.showText, [TextDisplay, "&lt;h1&gt;HEYO!!!!!&lt;/h1&gt;"]);
+            this.timeline.addTimeAction(9, this.showRichText, [TextDisplay, "&lt;h1&gt;HEYO!!!!!&lt;/h1&gt;"]);
+            this.timeline.addTimeAction(11, this.showRichText, [TextDisplay, "&lt;h1&gt;&lt;a href='https://github.com/displaysJS'&gt;We code&lt;/a&gt;HEYO!!!!!&lt;/h1&gt;"]);
+            this.timeline.addTimeAction(20, this.showRichText, [TextDisplay, '&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/cUYSGojUuAU" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;']);
+            this.timeline.addTimeAction(60, this.showRichText, [TextDisplay, '&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/jq-mwUVk5ho" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;']);
+            this.timeline.addTimeAction(77, this.showText, [TextDisplay, "Sorry it's gone!"]);
+            this.timeline.addTimeAction(80, this.showRichText, [TextDisplay, '&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/ji51y8ALuQ8" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;']);
+          }
+
+          TextDisplay.handleTick = function(t){
+            //normaly time would be available through the context.
+            this.timeline.callTimeAction(t);
+          }
+
+          TextDisplay.start = function(){
+            this.prepareTimeline();
+          }
+
+          TextDisplay.render = function(){
+            document.body.append(this.text_canvas);
+          }
+
+          var t=0;
+          var counter=null;
+          function tick() {
+            TextDisplay.handleTick(t);
+            t+=1;
+            if (t > 100) {
+              clearInterval(counter);
+            }
+          }
+
+          /** Start time counter **/
+          function startTimeCounter() {
+            counter = setInterval(tick, 1000);
+          }
+
+          document.addEventListener("DOMContentLoaded", function() {
+            TextDisplay.start();
+            TextDisplay.render();
+            startTimeCounter();
+          });
+        </code>
       </pre>
-      </code>
-    </p>
-      <script type="text/javascript">
-        var TextDisplay = new Display({});
+    </div>
+  </div>
 
-        TextDisplay.text_canvas = document.createElement('div');
-        TextDisplay.text_canvas.setAttribute('id', 'textdisplay0');
-        TextDisplay.text_canvas.setAttribute('class', 'funky');
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script type="text/javascript">
+    var TextDisplay = new Display({});
 
-        TextDisplay.showRichText = function(td, text){
-          td.text_canvas.innerHTML = text;
-        }
+    TextDisplay.text_canvas = document.createElement('div');
+    TextDisplay.text_canvas.setAttribute('id', 'textdisplay0');
+    TextDisplay.text_canvas.setAttribute('class', 'funky');
 
-        TextDisplay.showText = function(td, text){
-          td.text_canvas.innerText = text;
-        }
+    TextDisplay.showRichText = function(td, text){
+      td.text_canvas.innerHTML = text;
+    }
 
-        TextDisplay.clearText = function(){
-          this.text_canvas.innerHTML = "";
-        }
+    TextDisplay.showText = function(td, text){
+      td.text_canvas.innerText = text;
+    }
 
-        TextDisplay.prepareTimeline = function(timeline) {
-          this.timeline.addTimeAction(0, this.showText, [TextDisplay, "Hello World"], name="welcome-message");
-          this.timeline.addTimeAction(5, this.showText, [TextDisplay, "It should be at 5 now"]);
-          this.timeline.addTimeAction(7, this.showText, [TextDisplay, "<h1>HEYO!!!!!</h1>"]);
-          this.timeline.addTimeAction(9, this.showRichText, [TextDisplay, "<h1>HEYO!!!!!</h1>"]);
-          this.timeline.addTimeAction(11, this.showRichText, [TextDisplay, "<h1><a href='https://github.com/displaysJS'>We code</a>HEYO!!!!!</h1>"]);
-          this.timeline.addTimeAction(20, this.showRichText, [TextDisplay, '<iframe width="560" height="315" src="https://www.youtube.com/embed/cUYSGojUuAU" frameborder="0" allowfullscreen></iframe>']);
-          this.timeline.addTimeAction(60, this.showRichText, [TextDisplay, '<iframe width="560" height="315" src="https://www.youtube.com/embed/jq-mwUVk5ho" frameborder="0" allowfullscreen></iframe>']);
-          this.timeline.addTimeAction(77, this.showText, [TextDisplay, "Sorry it's gone!"]);
-          this.timeline.addTimeAction(80, this.showRichText, [TextDisplay, '<iframe width="560" height="315" src="https://www.youtube.com/embed/ji51y8ALuQ8" frameborder="0" allowfullscreen></iframe>']);
-        }
+    TextDisplay.clearText = function(){
+      this.text_canvas.innerHTML = "";
+    }
 
-        TextDisplay.handleTick = function(t){
-          //normaly time would be available through the context.
-          this.timeline.callTimeAction(t);
-        }
+    TextDisplay.prepareTimeline = function(timeline) {
+      this.timeline.addTimeAction(0, this.showText, [TextDisplay, "Hello World"], name="welcome-message");
+      this.timeline.addTimeAction(5, this.showText, [TextDisplay, "It should be at 5 now"]);
+      this.timeline.addTimeAction(7, this.showText, [TextDisplay, "<h1>HEYO!!!!!</h1>"]);
+      this.timeline.addTimeAction(9, this.showRichText, [TextDisplay, "<h1>HEYO!!!!!</h1>"]);
+      this.timeline.addTimeAction(11, this.showRichText, [TextDisplay, "<h1><a href='https://github.com/displaysJS'>We code</a>HEYO!!!!!</h1>"]);
+      this.timeline.addTimeAction(20, this.showRichText, [TextDisplay, '<iframe width="560" height="315" src="https://www.youtube.com/embed/cUYSGojUuAU" frameborder="0" allowfullscreen></iframe>']);
+      this.timeline.addTimeAction(60, this.showRichText, [TextDisplay, '<iframe width="560" height="315" src="https://www.youtube.com/embed/jq-mwUVk5ho" frameborder="0" allowfullscreen></iframe>']);
+      this.timeline.addTimeAction(77, this.showText, [TextDisplay, "Sorry it's gone!"]);
+      this.timeline.addTimeAction(80, this.showRichText, [TextDisplay, '<iframe width="560" height="315" src="https://www.youtube.com/embed/ji51y8ALuQ8" frameborder="0" allowfullscreen></iframe>']);
+    }
 
-        TextDisplay.start = function(){
-          this.prepareTimeline();
-        }
+    TextDisplay.handleTick = function(t){
+      //normaly time would be available through the context.
+      this.timeline.callTimeAction(t);
+    }
 
-        TextDisplay.render = function(){
-          document.body.prepend(this.text_canvas);
-        }
+    TextDisplay.start = function(){
+      this.prepareTimeline();
+    }
 
-        var t=0;
-        var counter=null;
-        function tick() {
-          TextDisplay.handleTick(t);
-          t+=1;
-          if (t > 100) {
-            clearInterval(counter);
-          }
-        }
+    TextDisplay.render = function(){
+      document.getElementById("display-container").prepend(this.text_canvas);
+    }
 
-        /** Start time counter **/
-        function startTimeCounter() {
-          counter = setInterval(tick, 1000);
-        }
+    var t=0;
+    var counter=null;
+    function tick() {
+      TextDisplay.handleTick(t);
+      t+=1;
+      if (t > 100) {
+        clearInterval(counter);
+      }
+    }
 
-        document.addEventListener("DOMContentLoaded", function() {
-          TextDisplay.start();
-          TextDisplay.render();
-          startTimeCounter();
-        });
-      </script>
-  </body>
+    /** Start time counter **/
+    function startTimeCounter() {
+      counter = setInterval(tick, 1000);
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      TextDisplay.start();
+      TextDisplay.render();
+      startTimeCounter();
+    });
+  </script>
+</body>
 </html>
