@@ -65,53 +65,69 @@
         <br />
         <pre><code>
 
-          var TextDisplay = new Display({});
-
-          TextDisplay.text_canvas = document.createElement('div');
-          TextDisplay.text_canvas.setAttribute('id', 'textdisplay0');
-          TextDisplay.text_canvas.setAttribute('class', 'funky');
-
-          TextDisplay.showRichText = function(td, text){
-            td.text_canvas.innerHTML = text;
+          function TextDisplay(args) {
+            Display.call(this, args)
           }
 
-          TextDisplay.showText = function(td, text){
-            td.text_canvas.innerText = text;
+          TextDisplay.prototype = Object.create(Display.prototype);
+
+          TextDisplay.prototype.name = "TextDisplay";
+          TextDisplay.prototype.text_canvas = document.createElement('div');
+          TextDisplay.prototype.showRichText = function(text){
+            this.text_canvas.innerHTML = text;
           }
 
-          TextDisplay.clearText = function(){
+          TextDisplay.prototype.showText = function(text){
+            this.text_canvas.innerText = text;
+          }
+
+          TextDisplay.prototype.clearText = function(){
             this.text_canvas.innerHTML = "";
           }
 
-          TextDisplay.prepareTimeline = function(timeline) {
-            this.timeline.addTimeAction(0, this.showText, [TextDisplay, "Hello World"], name="welcome-message");
-            this.timeline.addTimeAction(5, this.showText, [TextDisplay, "It should be at 5 now"]);
-            this.timeline.addTimeAction(7, this.showText, [TextDisplay, "&lt;h1&gt;HEYO!!!!!&lt;/h1&gt;"]);
-            this.timeline.addTimeAction(9, this.showRichText, [TextDisplay, "&lt;h1&gt;HEYO!!!!!&lt;/h1&gt;"]);
-            this.timeline.addTimeAction(11, this.showRichText, [TextDisplay, "&lt;h1&gt;&lt;a href='https://github.com/displaysJS'&gt;We code&lt;/a&gt;HEYO!!!!!&lt;/h1&gt;"]);
-            this.timeline.addTimeAction(20, this.showRichText, [TextDisplay, '&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/cUYSGojUuAU" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;']);
-            this.timeline.addTimeAction(60, this.showRichText, [TextDisplay, '&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/jq-mwUVk5ho" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;']);
-            this.timeline.addTimeAction(77, this.showText, [TextDisplay, "Sorry it's gone!"]);
-            this.timeline.addTimeAction(80, this.showRichText, [TextDisplay, '&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/ji51y8ALuQ8" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;']);
+          TextDisplay.prototype.setProperties = function(args) {
+            this.container_id = args.container_id;
+            this.text_canvas.setAttribute('id', args.canvas_id);
+            this.text_canvas.setAttribute('class', args.canvas_class);
           }
 
-          TextDisplay.handleTick = function(t){
+          TextDisplay.prototype.handleTick = function(t){
             //normaly time would be available through the context.
             this.timeline.callTimeAction(t);
           }
 
-          TextDisplay.start = function(){
+          TextDisplay.prototype.prepareTimeline = function() {}
+
+          TextDisplay.prototype.start = function(){
             this.prepareTimeline();
           }
 
-          TextDisplay.render = function(){
-            document.body.append(this.text_canvas);
+          TextDisplay.prototype.render = function(){
+            document.getElementById(this.container_id).prepend(this.text_canvas);
+          }
+
+          var td = new TextDisplay({});
+          td.setProperties({container_id: "display-container",
+                            canvas_id: "textdisplay0",
+                            canvas_class: "funky"});
+
+          td.prepareTimeline = function(timeline) {
+            this.timeline.addTimeAction(0, this.showText.bind(this), "Hello World", name="welcome-message");
+            this.timeline.addTimeAction(5, this.showText.bind(this), "It should be at 5 now");
+            this.timeline.addTimeAction(7, this.showText.bind(this), "&lt;h1&gt;HEYO!!!!!&lt;/h1&gt;");
+            this.timeline.addTimeAction(9, this.showRichText.bind(this), "&lt;h1&gt;HEYO!!!!!&lt;/h1&gt;");
+            this.timeline.addTimeAction(11, this.showRichText.bind(this), "&lt;h1&gt;&lt;a href='https://github.com/displaysJS'&gt;We code&lt;/a&gt;HEYO!!!!!&lt;/h1&gt;");
+            this.timeline.addTimeAction(20, this.showRichText.bind(this), '&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/cUYSGojUuAU" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;');
+            this.timeline.addTimeAction(60, this.showRichText.bind(this), '&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/jq-mwUVk5ho" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;');
+            this.timeline.addTimeAction(77, this.showText.bind(this), "Sorry it's gone!");
+            this.timeline.addTimeAction(80, this.showRichText.bind(this), '&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/ji51y8ALuQ8" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;');
+            this.timeline.addTimeAction(80, this.showRichText.bind(this), '&lt;iframe src="//www.slideshare.net/slideshow/embed_code/key/h5qOG1h3rv5lZh" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen&gt;&lt;/iframe&gt; &lt;div style="margin-bottom:5px"&gt;&lt;strong&gt;&lt;a href="//www.slideshare.net/ElodieAscenci/10-ways-to-spread-the-love-in-the-office" title="10 Ways to Spread The Love in The Office" target="_blank"&gt;10 Ways to Spread The Love in The Office&lt;/a&gt;&lt;/strong> de &lt;strong&gt;&lt;a target="_blank" href="https://www.slideshare.net/ElodieAscenci">Elodie Ascenci&lt;/a&gt;&lt;/strong&gt;&lt;/div&gt;');
           }
 
           var t=0;
           var counter=null;
           function tick() {
-            TextDisplay.handleTick(t);
+            td.handleTick(t);
             t+=1;
             if (t > 100) {
               clearInterval(counter);
@@ -124,10 +140,11 @@
           }
 
           document.addEventListener("DOMContentLoaded", function() {
-            TextDisplay.start();
-            TextDisplay.render();
+            td.start();
+            td.render();
             startTimeCounter();
           });
+
         </code>
       </pre>
     </div>
@@ -136,53 +153,70 @@
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script type="text/javascript">
-    var TextDisplay = new Display({});
 
-    TextDisplay.text_canvas = document.createElement('div');
-    TextDisplay.text_canvas.setAttribute('id', 'textdisplay0');
-    TextDisplay.text_canvas.setAttribute('class', 'funky');
-
-    TextDisplay.showRichText = function(td, text){
-      td.text_canvas.innerHTML = text;
+    function TextDisplay(args) {
+      Display.call(this, args)
     }
 
-    TextDisplay.showText = function(td, text){
-      td.text_canvas.innerText = text;
+    TextDisplay.prototype = Object.create(Display.prototype);
+
+    TextDisplay.prototype.name = "TextDisplay";
+    TextDisplay.prototype.text_canvas = document.createElement('div');
+    TextDisplay.prototype.showRichText = function(text){
+      this.text_canvas.innerHTML = text;
     }
 
-    TextDisplay.clearText = function(){
+    TextDisplay.prototype.showText = function(text){
+      this.text_canvas.innerText = text;
+    }
+
+    TextDisplay.prototype.clearText = function(){
       this.text_canvas.innerHTML = "";
     }
 
-    TextDisplay.prepareTimeline = function(timeline) {
-      this.timeline.addTimeAction(0, this.showText, [TextDisplay, "Hello World"], name="welcome-message");
-      this.timeline.addTimeAction(5, this.showText, [TextDisplay, "It should be at 5 now"]);
-      this.timeline.addTimeAction(7, this.showText, [TextDisplay, "<h1>HEYO!!!!!</h1>"]);
-      this.timeline.addTimeAction(9, this.showRichText, [TextDisplay, "<h1>HEYO!!!!!</h1>"]);
-      this.timeline.addTimeAction(11, this.showRichText, [TextDisplay, "<h1><a href='https://github.com/displaysJS'>We code</a>HEYO!!!!!</h1>"]);
-      this.timeline.addTimeAction(20, this.showRichText, [TextDisplay, '<iframe width="560" height="315" src="https://www.youtube.com/embed/cUYSGojUuAU" frameborder="0" allowfullscreen></iframe>']);
-      this.timeline.addTimeAction(60, this.showRichText, [TextDisplay, '<iframe width="560" height="315" src="https://www.youtube.com/embed/jq-mwUVk5ho" frameborder="0" allowfullscreen></iframe>']);
-      this.timeline.addTimeAction(77, this.showText, [TextDisplay, "Sorry it's gone!"]);
-      this.timeline.addTimeAction(80, this.showRichText, [TextDisplay, '<iframe width="560" height="315" src="https://www.youtube.com/embed/ji51y8ALuQ8" frameborder="0" allowfullscreen></iframe>']);
+    TextDisplay.prototype.setProperties = function(args) {
+      this.container_id = args.container_id;
+      this.text_canvas.setAttribute('id', args.canvas_id);
+      this.text_canvas.setAttribute('class', args.canvas_class);
     }
 
-    TextDisplay.handleTick = function(t){
+    TextDisplay.prototype.handleTick = function(t){
       //normaly time would be available through the context.
       this.timeline.callTimeAction(t);
     }
 
-    TextDisplay.start = function(){
+    TextDisplay.prototype.prepareTimeline = function() {}
+
+    TextDisplay.prototype.start = function(){
       this.prepareTimeline();
     }
 
-    TextDisplay.render = function(){
-      document.getElementById("display-container").prepend(this.text_canvas);
+    TextDisplay.prototype.render = function(){
+      document.getElementById(this.container_id).prepend(this.text_canvas);
+    }
+
+    var td = new TextDisplay({});
+    td.setProperties({container_id: "display-container",
+                      canvas_id: "textdisplay0",
+                      canvas_class: "funky"});
+
+    td.prepareTimeline = function(timeline) {
+      this.timeline.addTimeAction(0, this.showText.bind(this),  "Hello World", name="welcome-message");
+      this.timeline.addTimeAction(5, this.showText.bind(this),  "It should be at 5 now");
+      this.timeline.addTimeAction(7, this.showText.bind(this),  "<h1>HEYO!!!!!</h1>");
+      this.timeline.addTimeAction(9, this.showRichText.bind(this),  "<h1>HEYO!!!!!</h1>");
+      this.timeline.addTimeAction(11, this.showRichText.bind(this),  "<h1><a href='https://github.com/displaysJS'>We code</a>HEYO!!!!!</h1>");
+      this.timeline.addTimeAction(20, this.showRichText.bind(this),  '<iframe width="560" height="315" src="https://www.youtube.com/embed/cUYSGojUuAU" frameborder="0" allowfullscreen></iframe>');
+      this.timeline.addTimeAction(60, this.showRichText.bind(this),  '<iframe width="560" height="315" src="https://www.youtube.com/embed/jq-mwUVk5ho" frameborder="0" allowfullscreen></iframe>');
+      this.timeline.addTimeAction(77, this.showText.bind(this),  "Sorry it's gone!");
+      this.timeline.addTimeAction(80, this.showRichText.bind(this),  '<iframe width="560" height="315" src="https://www.youtube.com/embed/ji51y8ALuQ8" frameborder="0" allowfullscreen></iframe>');
+      this.timeline.addTimeAction(97, this.showRichText.bind(this),  '<iframe src="//www.slideshare.net/slideshow/embed_code/key/h5qOG1h3rv5lZh" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/ElodieAscenci/10-ways-to-spread-the-love-in-the-office" title="10 Ways to Spread The Love in The Office" target="_blank">10 Ways to Spread The Love in The Office</a> </strong> de <strong><a target="_blank" href="https://www.slideshare.net/ElodieAscenci">Elodie Ascenci</a></strong> </div>');
     }
 
     var t=0;
     var counter=null;
     function tick() {
-      TextDisplay.handleTick(t);
+      td.handleTick(t);
       t+=1;
       if (t > 100) {
         clearInterval(counter);
@@ -195,8 +229,8 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-      TextDisplay.start();
-      TextDisplay.render();
+      td.start();
+      td.render();
       startTimeCounter();
     });
   </script>
