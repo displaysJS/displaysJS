@@ -103,7 +103,7 @@
           }
 
           TextDisplay.prototype.render = function(){
-            document.getElementById(this.container_id).prepend(this.text_canvas);
+            document.getElementById(this.container_id).append(this.text_canvas);
           }
 
           var td = new TextDisplay({});
@@ -191,7 +191,7 @@
     }
 
     TextDisplay.prototype.render = function(){
-      document.getElementById(this.container_id).prepend(this.text_canvas);
+      document.getElementById(this.container_id).append(this.text_canvas);
     }
 
     var td = new TextDisplay({});
