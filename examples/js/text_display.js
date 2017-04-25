@@ -34,9 +34,12 @@ TextDisplay.prototype.handleTick = function(){
 
 TextDisplay.prototype.prepareTimeline = function() {}
 
-TextDisplay.prototype.start = function(){}
+TextDisplay.prototype.setup = function(){
+  this.prepareTimeline();
+}
 
 TextDisplay.prototype.render = function(){
-  this.prepareTimeline();
-  return this.text_canvas;
+    return this.text_canvas;
 }
+
+TextDisplay.prototype.play = function(){}

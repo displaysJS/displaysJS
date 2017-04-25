@@ -142,14 +142,20 @@ var Display = function () {
     key: "handleContinue",
     value: function handleContinue() {}
   }, {
+    key: "setup",
+    value: function setup() {}
+  }, {
     key: "render",
     value: function render() {}
   }, {
-    key: "start",
-    value: function start() {}
+    key: "play",
+    value: function play() {}
   }, {
     key: "pause",
     value: function pause() {}
+  }, {
+    key: "reset",
+    value: function reset() {}
   }]);
 
   return Display;
@@ -185,6 +191,7 @@ var DisplayCoordinator = function () {
 
     this.context = {
       time: 0,
+      duration: args.duration || 0,
       emitter: new EventEmitter2({
         maxListeners: 14 // might need to think this through more.
       })
@@ -263,8 +270,11 @@ var DisplayCoordinator = function () {
     value: function perform() {
       function startup() {
         for (var display in this.displays) {
+          this.displays[display].setup();
           this.stage.add(this.displays[display].render());
-          this.displays[display].start();
+        }
+        for (var display in this.displays) {
+          this.displays[display].play();
         }
       }
 
@@ -292,7 +302,9 @@ var DisplayCoordinator = function () {
     key: "stopPerformance",
     value: function stopPerformance() {
       this.seek(0);
-      this.pause();
+      for (var display in this.displays) {
+        this.displays[display].reset();
+      }
     }
   }]);
 

@@ -24,9 +24,7 @@
   <!-- JS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script src="/js/displays.js" charset="utf-8"></script>
-  <script src="/js/youtube_display.js" charset="utf-8"></script>
   <script src="/js/text_display.js" charset="utf-8"></script>
-  <script src="/js/jquery-3.2.1.min.js" charset="utf-8"></script>
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -67,7 +65,8 @@
               this.timeline.addTimeAction(80, this.showRichText.bind(this), '&lt;iframe src="//www.slideshare.net/slideshow/embed_code/key/h5qOG1h3rv5lZh" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen&gt;&lt;/iframe&gt; &lt;div style="margin-bottom:5px"&gt;&lt;strong&gt;&lt;a href="//www.slideshare.net/ElodieAscenci/10-ways-to-spread-the-love-in-the-office" title="10 Ways to Spread The Love in The Office" target="_blank"&gt;10 Ways to Spread The Love in The Office&lt;/a&gt;&lt;/strong> de &lt;strong&gt;&lt;a target="_blank" href="https://www.slideshare.net/ElodieAscenci">Elodie Ascenci&lt;/a&gt;&lt;/strong&gt;&lt;/div&gt;');
             }
 
-            td.start = function() {
+
+            td.play = function() {
               var t=0;
               var counter=null;
               function tick() {
@@ -79,6 +78,7 @@
               }
               counter = setInterval(tick.bind(this), 1000);
             }
+
 
             td.setAsReady();
 
@@ -141,7 +141,7 @@
       this.timeline.addTimeAction(97, this.showRichText.bind(this),  '<iframe src="//www.slideshare.net/slideshow/embed_code/key/h5qOG1h3rv5lZh" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/ElodieAscenci/10-ways-to-spread-the-love-in-the-office" title="10 Ways to Spread The Love in The Office" target="_blank">10 Ways to Spread The Love in The Office</a> </strong> de <strong><a target="_blank" href="https://www.slideshare.net/ElodieAscenci">Elodie Ascenci</a></strong> </div>');
     }
 
-    td.start = function() {
+    td.play = function() {
       var t=0;
       var counter=null;
       function tick() {
