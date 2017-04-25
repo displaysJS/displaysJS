@@ -124,26 +124,26 @@
             this.timeline.addTimeAction(80, this.showRichText.bind(this), '&lt;iframe src="//www.slideshare.net/slideshow/embed_code/key/h5qOG1h3rv5lZh" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen&gt;&lt;/iframe&gt; &lt;div style="margin-bottom:5px"&gt;&lt;strong&gt;&lt;a href="//www.slideshare.net/ElodieAscenci/10-ways-to-spread-the-love-in-the-office" title="10 Ways to Spread The Love in The Office" target="_blank"&gt;10 Ways to Spread The Love in The Office&lt;/a&gt;&lt;/strong> de &lt;strong&gt;&lt;a target="_blank" href="https://www.slideshare.net/ElodieAscenci">Elodie Ascenci&lt;/a&gt;&lt;/strong&gt;&lt;/div&gt;');
           }
 
-              var t=0;
-              var counter=null;
-              function tick() {
-                td.handleTick(t);
-                t+=1;
-                if (t > 100) {
-                  clearInterval(counter);
-                }
+          /** Start time text display **/
+          td.start = function() {
+            var t=0;
+            var counter=null;
+            function tick() {
+              this.handleTick(t);
+              t+=1;
+              if (t > 100) {
+                clearInterval(counter);
               }
+            }
 
-              /** Start time counter **/
-              function startTimeCounter() {
-                counter = setInterval(tick, 1000);
-              }
+            counter = setInterval(tick.bind(this), 1000);
+          }
 
-              document.addEventListener("DOMContentLoaded", function() {
-                td.start();
-                td.render();
-                startTimeCounter();
-              });
+          document.addEventListener("DOMContentLoaded", function() {
+            td.render();
+            td.start();
+          });
+
         </code>
       </pre>
     </div>
@@ -186,11 +186,10 @@
 
     TextDisplay.prototype.prepareTimeline = function() {}
 
-    TextDisplay.prototype.start = function(){
-      this.prepareTimeline();
-    }
+    TextDisplay.prototype.start = function(){}
 
     TextDisplay.prototype.render = function(){
+      this.prepareTimeline();
       document.getElementById(this.container_id).append(this.text_canvas);
     }
 
@@ -212,25 +211,24 @@
       this.timeline.addTimeAction(97, this.showRichText.bind(this),  '<iframe src="//www.slideshare.net/slideshow/embed_code/key/h5qOG1h3rv5lZh" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/ElodieAscenci/10-ways-to-spread-the-love-in-the-office" title="10 Ways to Spread The Love in The Office" target="_blank">10 Ways to Spread The Love in The Office</a> </strong> de <strong><a target="_blank" href="https://www.slideshare.net/ElodieAscenci">Elodie Ascenci</a></strong> </div>');
     }
 
-    var t=0;
-    var counter=null;
-    function tick() {
-      td.handleTick(t);
-      t+=1;
-      if (t > 100) {
-        clearInterval(counter);
+    /** Start time text display **/
+    td.start = function() {
+      var t=0;
+      var counter=null;
+      function tick() {
+        this.handleTick(t);
+        t+=1;
+        if (t > 100) {
+          clearInterval(counter);
+        }
       }
-    }
 
-    /** Start time counter **/
-    function startTimeCounter() {
-      counter = setInterval(tick, 1000);
+      counter = setInterval(tick.bind(this), 1000);
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-      td.start();
       td.render();
-      startTimeCounter();
+      td.start();
     });
   </script>
 </body>
