@@ -1,0 +1,1 @@
+var YoutubeDisplay = new Display({});

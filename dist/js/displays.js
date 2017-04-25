@@ -56,7 +56,7 @@ var Display = function () {
     this.name = args.name || "undefined";
     this.timeline = new Timeline({ name: this.name + "-timeline",
       treshold: args.timeline_treshold });
-    this.primary_display = args.primary_display || false;
+    this.is_primary_display = false;
     this.mode = MODES.NORMAL;
     this.m_ready = false;
   }
@@ -70,22 +70,35 @@ var Display = function () {
     key: "setContext",
     value: function setContext(context) {
       this.context = context;
-      this.context.emitter.on("tick", handleTick);
+      if (!this.isPrimaryDisplay()) {
+        this.context.emitter.on("tick", this.handleTick.bind(this));
+      }
+      this.context.emitter.on("pause", this.handlePause.bind(this));
+      this.context.emitter.on("continue", this.handleContinue.bind(this));
+    }
+  }, {
+    key: "setAsReady",
+    value: function setAsReady() {
+      this.m_ready = true;
+      if (this.context != undefined) {
+        this.context.emitter.emit("ready");
+        //console.log(this.m_ready);
+      }
     }
   }, {
     key: "ready",
     value: function ready() {
-      this.m_ready;
+      return this.m_ready;
     }
   }, {
-    key: "setCoordinatorTicker",
-    value: function setCoordinatorTicker(tick_func) {
-      this.coordinator_ticker = tick_func;
+    key: "setAsPrimaryDisplay",
+    value: function setAsPrimaryDisplay() {
+      this.is_primary_display = true;
     }
   }, {
     key: "isPrimaryDisplay",
     value: function isPrimaryDisplay() {
-      if (this.primary_display) {
+      if (this.is_primary_display) {
         return true;
       } else {
         return false;
@@ -94,8 +107,9 @@ var Display = function () {
   }, {
     key: "tick",
     value: function tick() {
-      if (this.isPrimaryDisplay) {
-        this.coordinator_ticker();
+      if (this.isPrimaryDisplay()) {
+        this.context.emitter.emit('tick');
+        this.context.time += 1;
       }
     }
   }, {
@@ -118,7 +132,15 @@ var Display = function () {
     }
   }, {
     key: "handleTick",
-    value: function handleTick() {}
+    value: function handleTick() {
+      this.timeline.callTimeAction(this.context.time);
+    }
+  }, {
+    key: "handlePause",
+    value: function handlePause() {}
+  }, {
+    key: "handleContinue",
+    value: function handleContinue() {}
   }, {
     key: "render",
     value: function render() {}
@@ -167,12 +189,30 @@ var DisplayCoordinator = function () {
         maxListeners: 14 // might need to think this through more.
       })
     };
+    this.stage = args.stage || { add: function add(args) {} };
     this.name = args.name || "undefined";
     this.timeline = new Timeline({ name: this.name + "-timeline",
       treshold: args.timeline_treshold });
-    this.dom_container = document.getElementById(args.container_id);
     this.displays = args.displays;
-    this.primary_display = args.primary_display;
+    this.displays_not_ready = [];
+
+    if (args.primary_display != undefined) {
+      args.primary_display.setAsPrimaryDisplay();
+    }
+
+    for (var display in this.displays) {
+      this.displays[display].setContext(this.context);
+      if (!this.displays[display].ready()) {
+        this.displays_not_ready.push(this.displays[display]);
+      }
+    }
+
+    /** Handle case where a display is not in sync or
+    needs all other displays to pause.**/
+    this.context.emitter.on("tick", this.handleTick.bind(this));
+    this.context.emitter.on("pause", this.pausePerformance.bind(this));
+    this.context.emitter.on("continue", this.continuePerformance.bind(this));
+    this.context.emitter.on("ready", this.checkAllReady.bind(this));
   }
 
   _createClass(DisplayCoordinator, [{
@@ -181,10 +221,36 @@ var DisplayCoordinator = function () {
       return '(' + this.name + ')';
     }
   }, {
+    key: "checkAllReady",
+    value: function checkAllReady() {
+      for (var display in this.displays_not_ready) {
+        if (this.displays_not_ready[display].ready()) {
+          this.displays_not_ready.splice(display, 1);
+        }
+      }
+      if (this.displays_not_ready.length == 0) {
+        this.context.emitter.emit("all_ready");
+      }
+    }
+  }, {
+    key: "allReady",
+    value: function allReady() {
+      if (this.displays_not_ready.length == 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }, {
     key: "tick",
     value: function tick() {
       this.context.time += 1;
       this.context.emitter.emit('tick');
+    }
+  }, {
+    key: "handleTick",
+    value: function handleTick() {
+      this.timeline.callTimeAction(this.context.time);
     }
   }, {
     key: "seek",
@@ -195,22 +261,36 @@ var DisplayCoordinator = function () {
   }, {
     key: "perform",
     value: function perform() {
-      this.primary_display.setCoordinatorTicker(this.tick);
-      for (var display in this.displays) {
-        display.setContext(this.context);
-        display.start();
+      function startup() {
+        for (var display in this.displays) {
+          this.stage.add(this.displays[display].render());
+          this.displays[display].start();
+        }
+      }
+
+      if (this.allReady()) {
+        startup.bind(this)();
+      } else {
+        this.context.emitter.on("all_ready", startup.bind(this));
       }
     }
   }, {
-    key: "pause",
-    value: function pause() {
+    key: "continuePerformance",
+    value: function continuePerformance() {
       for (var display in this.displays) {
-        display.pause();
+        this.displays[display].play();
       }
     }
   }, {
-    key: "stop",
-    value: function stop() {
+    key: "pausePerformance",
+    value: function pausePerformance() {
+      for (var display in this.displays) {
+        this.displays[display].pause();
+      }
+    }
+  }, {
+    key: "stopPerformance",
+    value: function stopPerformance() {
       this.seek(0);
       this.pause();
     }
