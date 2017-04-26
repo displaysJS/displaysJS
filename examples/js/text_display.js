@@ -27,9 +27,6 @@ TextDisplay.prototype.setProperties = function(args) {
 TextDisplay.prototype.handleTick = function(){
   //normaly time would be available through the context.
   this.timeline.callTimeAction(this.context.time);
-  if (this.isPrimaryDisplay()) {
-    this.tick();
-  }
 }
 
 TextDisplay.prototype.prepareTimeline = function() {}

@@ -128,7 +128,7 @@
     td.setProperties({canvas_id: "textdisplay0",
                       canvas_class: "funky"});
 
-    td.prepareTimeline = function(timeline) {
+    td.prepareTimeline = function() {
       this.timeline.addTimeAction(0, this.showText.bind(this),  "Hello World", name="welcome-message");
       this.timeline.addTimeAction(5, this.showText.bind(this),  "It should be at 5 now");
       this.timeline.addTimeAction(7, this.showText.bind(this),  "<h1>HEYO!!!!!</h1>");
@@ -145,7 +145,7 @@
       var t=0;
       var counter=null;
       function tick() {
-        this.handleTick();
+        this.tick();
         t+=1;
         if (t > 100) {
           clearInterval(counter);
@@ -160,7 +160,7 @@
     td2.setProperties({canvas_id: "textdisplay2",
                       canvas_class: "not-funky"});
 
-    td2.prepareTimeline = function(timeline) {
+    td2.prepareTimeline = function() {
       this.timeline.addTimeAction(0, this.showText.bind(this),  "Hellow ~ World", name="welcome-message");
       this.timeline.addTimeAction(5, this.showText.bind(this),  "It should be at 5 now");
       this.timeline.addTimeAction(7, this.showText.bind(this),  "<h1>HEYO!!!!!</h1>");

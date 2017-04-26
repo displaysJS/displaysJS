@@ -1,42 +1,56 @@
 function YoutubeDisplay(args) {
   Display.call(this, args);
-  this.text_canvas = document.createElement('div');
+  this.script_tag =  document.createElement('script');
+  this.script_tag.src = "https://www.youtube.com/iframe_api";document.createElement('div');
+  this.player = document.createElement('div');
+  this.player_id = args.player_id;
+
+  this.stopVideo = function () {
+    "Stoping"
+    this.player.stopVideo();
+    clearInterval(this.counter);
+  }
 }
 
 YoutubeDisplay.prototype = Object.create(Display.prototype);
 
 YoutubeDisplay.prototype.name = "YoutubeDisplay";
 
-YoutubeDisplay.prototype.showRichText = function(text){
-  this.text_canvas.innerHTML = text;
-}
-
-YoutubeDisplay.prototype.showText = function(text){
-  this.text_canvas.innerText = text;
-}
-
-YoutubeDisplay.prototype.clearText = function(){
-  this.text_canvas.innerHTML = "";
-}
-
-YoutubeDisplay.prototype.setProperties = function(args) {
-  this.text_canvas.setAttribute('id', args.canvas_id);
-  this.text_canvas.setAttribute('class', args.canvas_class);
-}
-
-YoutubeDisplay.prototype.handleTick = function(){
-  //normaly time would be available through the context.
-  this.timeline.callTimeAction(this.context.time);
-  if (this.isPrimaryDisplay()) {
-    this.tick();
-  }
-}
-
 YoutubeDisplay.prototype.prepareTimeline = function() {}
+YoutubeDisplay.prototype.handleTick = function () {
+  console.log("Handling tick");
+  this.timeline.callNearestTimeAction(this.context.time);
+}
 
-YoutubeDisplay.prototype.start = function(){}
+YoutubeDisplay.prototype.setupPlayer = function(){
+  this.player = new YT.Player(this.player_id, {
+    height: '390',
+    width: '640',
+    videoId: 'M7lc1UVf-VE',
+    events: {
+      'onReady': this.setAsReady.bind(this)
+    }
+  });
+}
+
+YoutubeDisplay.prototype.setup = function(){
+  this.prepareTimeline();
+  this.firstScriptTag = document.getElementsByTagName('script')[0];
+  this.firstScriptTag.parentNode.insertBefore(this.script_tag, this.firstScriptTag);
+  window.onYouTubeIframeAPIReady = this.setupPlayer.bind(this);
+}
 
 YoutubeDisplay.prototype.render = function(){
-  this.prepareTimeline();
-  return this.text_canvas;
+  console.log("Rendered");
+}
+
+YoutubeDisplay.prototype.play = function() {
+  console.log("called to play");
+  this.player.playVideo();
+  //Uses seconds as counter (every 1000 ms) for tick
+  /*function tickit(){
+    //console.log("ticked");
+    this.tick();
+  }*/
+  this.counter = setInterval(this.tick.bind(this), 1000);
 }

@@ -70,9 +70,7 @@ var Display = function () {
     key: "setContext",
     value: function setContext(context) {
       this.context = context;
-      if (!this.isPrimaryDisplay()) {
-        this.context.emitter.on("tick", this.handleTick.bind(this));
-      }
+      this.context.emitter.on("tick", this.handleTick.bind(this));
       this.context.emitter.on("pause", this.handlePause.bind(this));
       this.context.emitter.on("continue", this.handleContinue.bind(this));
     }
@@ -268,12 +266,16 @@ var DisplayCoordinator = function () {
   }, {
     key: "perform",
     value: function perform() {
+      for (var display in this.displays) {
+        this.displays[display].setup();
+      }
+
       function startup() {
         for (var display in this.displays) {
-          this.displays[display].setup();
-          this.stage.add(this.displays[display].render());
-        }
-        for (var display in this.displays) {
+          var rendering = this.displays[display].render();
+          if (rendering != undefined) {
+            this.stage.add(rendering);
+          }
           this.displays[display].play();
         }
       }
