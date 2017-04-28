@@ -1,9 +1,11 @@
 function YoutubeDisplay(args) {
   Display.call(this, args);
   this.script_tag =  document.createElement('script');
-  this.script_tag.src = "https://www.youtube.com/iframe_api";document.createElement('div');
+  this.script_tag.src = "https://www.youtube.com/iframe_api";
   this.player = document.createElement('div');
   this.player_id = args.player_id;
+  this.t_ratio = args.t_ratio || 1000;
+  this.video_id = args.video_id;
 
   this.stopVideo = function () {
     "Stoping"
@@ -18,15 +20,17 @@ YoutubeDisplay.prototype.name = "YoutubeDisplay";
 
 YoutubeDisplay.prototype.prepareTimeline = function() {}
 YoutubeDisplay.prototype.handleTick = function () {
-  console.log("Handling tick");
-  this.timeline.callNearestTimeAction(this.context.time);
+  this.timeline.callTimeAction(this.context.time);
+  var th = this.timeline.treshold;
+  var t = this.context.time;
+  
 }
 
 YoutubeDisplay.prototype.setupPlayer = function(){
   this.player = new YT.Player(this.player_id, {
     height: '390',
     width: '640',
-    videoId: 'M7lc1UVf-VE',
+    videoId: this.video_id,
     events: {
       'onReady': this.setAsReady.bind(this)
     }
@@ -52,5 +56,5 @@ YoutubeDisplay.prototype.play = function() {
     //console.log("ticked");
     this.tick();
   }*/
-  this.counter = setInterval(this.tick.bind(this), 1000);
+  this.counter = setInterval(this.tick.bind(this), this.t_ratio);
 }

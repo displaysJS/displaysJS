@@ -111,6 +111,11 @@ var Display = function () {
       }
     }
   }, {
+    key: "seek",
+    value: function seek(t) {
+      this.timeline.callTimeAction(t);
+    }
+  }, {
     key: "enableUserMode",
     value: function enableUserMode() {
       return this.mode = MODES.USER;
