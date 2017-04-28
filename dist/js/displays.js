@@ -418,9 +418,9 @@ var Timeline = function () {
     value: function getNearestTime(time) {
       for (var i = 1; i < this.treshold; i++) {
         if (this.time_actions.hasOwnProperty(time + i)) {
-          return time + 1;
+          return time + i;
         } else if (this.time_actions.hasOwnProperty(time - i)) {
-          return time - 1;
+          return time - i;
         }
       }
       return NOT_FOUND;
