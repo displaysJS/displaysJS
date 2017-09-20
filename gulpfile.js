@@ -12,6 +12,8 @@ var rename     = require('gulp-rename');
 var source     = require('vinyl-source-stream');
 var sourceMaps = require('gulp-sourcemaps');
 var watchify   = require('watchify');
+var mocha      = require('gulp-mocha');
+
 
 var config = {
     js: {
@@ -54,4 +56,8 @@ gulp.task('bundle', function () {
     var bundler = browserify(config.js.src)
                               .transform(babelify, { presets : [ 'es2015' ] })
     bundle(bundler);
+})
+
+gulp.task('test', ()=>{
+  return gulp.src('test/*.js', {read:false}).pipe(mocha({reporter:'nyan'}))
 })
