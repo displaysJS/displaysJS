@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>displaysJS example | Display</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="/css/normalize.css">
+  <link rel="stylesheet" href="/css/skeleton.css">
+  <!-- JS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="/js/require.js" charset="utf-8"></script>
+  <script src="/js/jquery-3.2.1.min.js" charset="utf-8"></script>
+
+  <!-- Modules below -->
+  <script src="/js/Displays.js" charset="utf-8"></script>
+  <script src="/js/youtube_display.js" charset="utf-8"></script>
+  <script src="/samples/dist/TextDisplay.js" charset="utf-8"></script>
+
+  <style>
+    .sideView {
+      margin: 1em;
+      float: left;
+      display: inline-block;
+      background: rgba(179, 179, 179, 0.08);
+      border-radius: 5px;
+    }
+  </style>
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––_d––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="row">
+        <h3><a href="/">The Components</a> -
+            <a href="/coordinator.html">DisplayCoordinator</a> -
+            <a href="/display.html">Display</a> -
+            <a href="/timeline.html">Timeline</a>
+        </h3>
+        <h4>DisplayCoordinator example</h4>
+        <div id="lesson-stage"></div>
+
+        <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+      <div id="player"></div>
+
+      <script>
+
+      var vd = new YoutubeDisplay({player_id: "player", video_id: "KOdfpbnWLVo",
+                                    timeline_treshold: 2});
+
+
+      var td = new TextDisplay({});
+      td.setProperties({canvas_id: "textdisplay2",
+                        canvas_class: "sideView"});
+
+      td.prepareTimeline = function() {
+        this.timeline.addTimeAction(4, this.showRichText.bind(this), '<a href="https://en.wikipedia.org/wiki/%22Hello,_World!%22_program">"Hello, World!" program - Wikipedia</a>');
+        this.timeline.addTimeAction(25, this.showRichText.bind(this), '<a href="https://www.python.org/">Welcome to Python.org</a></h4><p>The official home of the Python Programming Language</p>');
+        this.timeline.addTimeAction(43, this.showRichText.bind(this), '<a href="https://www.howtogeek.com/140679/beginner-geek-how-to-start-using-the-linux-terminal/">How to user Linux Terminal</a><br /><a href="http://www.computerhope.com/issues/chusedos.htm">How to use CMD</a>');
+        this.timeline.addTimeAction(66, this.showRichText.bind(this), '<a href="https://www.python.org/downloads/">Download Python</a></h4><p>The official home of the Python Programming Language</p>');
+        this.timeline.addTimeAction(108, this.showRichText.bind(this), '<a href="https://en.wikipedia.org/wiki/Vim_(text_editor)">Vim (text editor) - Wikipedia</a></h4><p>Vim (; a contraction of Vi IMproved) is a clone of Bill Joy\'s vi text editor program for Unix. It was written by Bram Moolenaar based on source for a port of the Stevie editor to the Amiga and first released publicly in 1991.</p>');
+        this.timeline.addTimeAction(108, this.showRichText.bind(this), '<a href="https://www.python.org/doc/">Python Docs</a>');
+
+      }
+
+      td.setAsReady();
+      var DisplayCoordinator = Displays.DisplayCoordinator;
+      var lesson_coordinator = new DisplayCoordinator({
+        stage: {
+          add: function(item){
+            document.getElementById("lesson-stage").append(item);
+          }
+        },
+        name: "LessonCoordinator",
+        timeline_treshold: 1,
+        displays: [vd, td],
+        primary_display: vd
+      });
+      lesson_coordinator.perform();
+      </script>
+    </div>
+  </div>
+
+</body>
+</html>

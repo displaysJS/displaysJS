@@ -1,6 +1,6 @@
 /* global describe it */
 var assert = require('assert')
-var { Timeline, TimeAction } = require( '../lib/timeline.js' )
+var { Timeline, TimeAction } = require( '../src/timeline.js' );
 
 describe( 'time_action', ()=>{
   var greet = greeting => greeting + " World!!!"
