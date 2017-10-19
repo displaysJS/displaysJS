@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>displaysJS example | Display</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="/css/normalize.css">
+  <link rel="stylesheet" href="/css/skeleton.css">
+
+  <style>
+    .funky {
+      border: 1px solid blue;
+      min-width: 100px;
+      min-height: 50px;
+    }
+
+    .funky a {
+      color: red;
+      text-decoration: underline;
+    }
+  </style>
+  <!-- JS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="/js/jquery-3.2.1.min.js" charset="utf-8"></script>
+
+  <!-- Modules below -->
+  <script src="/js/Displays.js" charset="utf-8"></script>
+
+  <!-- Favicon
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+</head>
+<body>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="row">
+        <h3><a href="/">The Components</a> -
+            <a href="/coordinator.html">DisplayCoordinator</a> -
+            <a href="/timeline.html">Timeline</a>
+        </h3>
+        <h4>Display example</h4>
+        <div id="display-container"></div>
+        <br />
+        <p>In this example we create a TextDisplay object.
+          We define a text_canvas and then make sure it's rendered on start up.
+          We then populate it's timeline with time actions.
+          When the dom is ready, we start the timeline from 0 to 100, the counter changing
+          every second.</p>
+        <br />
+        <pre><code>
+
+          function TextDisplay(args) {
+            Display.call(this, args)
+          }
+
+          TextDisplay.prototype = Object.create(Display.prototype);
+
+          TextDisplay.prototype.name = "TextDisplay";
+          TextDisplay.prototype.text_canvas = document.createElement('div');
+          TextDisplay.prototype.showRichText = function(text){
+            this.text_canvas.innerHTML = text;
+          }
+
+          TextDisplay.prototype.showText = function(text){
+            this.text_canvas.innerText = text;
+          }
+
+          TextDisplay.prototype.clearText = function(){
+            this.text_canvas.innerHTML = "";
+          }
+
+          TextDisplay.prototype.setProperties = function(args) {
+            this.container_id = args.container_id;
+            this.text_canvas.setAttribute('id', args.canvas_id);
+            this.text_canvas.setAttribute('class', args.canvas_class);
+          }
+
+          TextDisplay.prototype.handleTick = function(t){
+            //normaly time would be available through the context.
+            this.timeline.callTimeAction(t);
+          }
+
+          TextDisplay.prototype.prepareTimeline = function() {}
+
+          TextDisplay.prototype.setup = function(){
+            this.prepareTimeline();
+          }
+
+          TextDisplay.prototype.render = function(){
+            document.getElementById(this.container_id).append(this.text_canvas);
+          }
+
+          TextDisplay.prototype.play = function(){}
+
+          var td = new TextDisplay({});
+          td.setProperties({container_id: "display-container",
+                            canvas_id: "textdisplay0",
+                            canvas_class: "funky"});
+
+          td.prepareTimeline = function(timeline) {
+            this.timeline.addTimeAction(0, this.showText.bind(this), "Hello World", name="welcome-message");
+            this.timeline.addTimeAction(5, this.showText.bind(this), "It should be at 5 now");
+            this.timeline.addTimeAction(7, this.showText.bind(this), "&lt;h1&gt;HEYO!!!!!&lt;/h1&gt;");
+            this.timeline.addTimeAction(9, this.showRichText.bind(this), "&lt;h1&gt;HEYO!!!!!&lt;/h1&gt;");
+            this.timeline.addTimeAction(11, this.showRichText.bind(this), "&lt;h1&gt;&lt;a href='https://github.com/displaysJS'&gt;We code&lt;/a&gt;HEYO!!!!!&lt;/h1&gt;");
+            this.timeline.addTimeAction(20, this.showRichText.bind(this), '&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/cUYSGojUuAU" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;');
+            this.timeline.addTimeAction(60, this.showRichText.bind(this), '&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/jq-mwUVk5ho" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;');
+            this.timeline.addTimeAction(77, this.showText.bind(this), "Sorry it's gone!");
+            this.timeline.addTimeAction(80, this.showRichText.bind(this), '&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/ji51y8ALuQ8" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;');
+            this.timeline.addTimeAction(80, this.showRichText.bind(this), '&lt;iframe src="//www.slideshare.net/slideshow/embed_code/key/h5qOG1h3rv5lZh" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen&gt;&lt;/iframe&gt; &lt;div style="margin-bottom:5px"&gt;&lt;strong&gt;&lt;a href="//www.slideshare.net/ElodieAscenci/10-ways-to-spread-the-love-in-the-office" title="10 Ways to Spread The Love in The Office" target="_blank"&gt;10 Ways to Spread The Love in The Office&lt;/a&gt;&lt;/strong> de &lt;strong&gt;&lt;a target="_blank" href="https://www.slideshare.net/ElodieAscenci">Elodie Ascenci&lt;/a&gt;&lt;/strong&gt;&lt;/div&gt;');
+          }
+
+          /** Start time text display **/
+          td.play = function() {
+            var t=0;
+            var counter=null;
+            function tick() {
+              this.handleTick(t);
+              t+=1;
+              if (t > 100) {
+                clearInterval(counter);
+              }
+            }
+
+            counter = setInterval(tick.bind(this), 1000);
+          }
+
+          document.addEventListener("DOMContentLoaded", function() {
+            td.setup();
+            td.render();
+            td.play();
+          });
+        </code>
+      </pre>
+    </div>
+  </div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script type="text/javascript">
+    var Display = Displays.Display;
+    function TextDisplay(args) {
+      Display.call(this, args)
+    }
+
+    TextDisplay.prototype = Object.create(Display.prototype);
+
+    TextDisplay.prototype.name = "TextDisplay";
+    TextDisplay.prototype.text_canvas = document.createElement('div');
+    TextDisplay.prototype.showRichText = function(text){
+      this.text_canvas.innerHTML = text;
+    }
+
+    TextDisplay.prototype.showText = function(text){
+      this.text_canvas.innerText = text;
+    }
+
+    TextDisplay.prototype.clearText = function(){
+      this.text_canvas.innerHTML = "";
+    }
+
+    TextDisplay.prototype.setProperties = function(args) {
+      this.container_id = args.container_id;
+      this.text_canvas.setAttribute('id', args.canvas_id);
+      this.text_canvas.setAttribute('class', args.canvas_class);
+    }
+
+    TextDisplay.prototype.handleTick = function(t){
+      //normaly time would be available through the context.
+      this.timeline.callTimeAction(t);
+    }
+
+    TextDisplay.prototype.prepareTimeline = function() {}
+
+    TextDisplay.prototype.setup = function(){
+      this.prepareTimeline();
+    }
+
+    TextDisplay.prototype.render = function(){
+      document.getElementById(this.container_id).append(this.text_canvas);
+    }
+
+    TextDisplay.prototype.play = function(){}
+
+
+    var td = new TextDisplay({});
+    td.setProperties({container_id: "display-container",
+                      canvas_id: "textdisplay0",
+                      canvas_class: "funky"});
+
+    td.prepareTimeline = function(timeline) {
+      this.timeline.addTimeAction(0, this.showText.bind(this),  "Hello World", name="welcome-message");
+      this.timeline.addTimeAction(5, this.showText.bind(this),  "It should be at 5 now");
+      this.timeline.addTimeAction(7, this.showText.bind(this),  "<h1>HEYO!!!!!</h1>");
+      this.timeline.addTimeAction(9, this.showRichText.bind(this),  "<h1>HEYO!!!!!</h1>");
+      this.timeline.addTimeAction(11, this.showRichText.bind(this),  "<h1><a href='https://github.com/displaysJS'>We code</a>HEYO!!!!!</h1>");
+      this.timeline.addTimeAction(20, this.showRichText.bind(this),  '<iframe width="560" height="315" src="https://www.youtube.com/embed/cUYSGojUuAU" frameborder="0" allowfullscreen></iframe>');
+      this.timeline.addTimeAction(60, this.showRichText.bind(this),  '<iframe width="560" height="315" src="https://www.youtube.com/embed/jq-mwUVk5ho" frameborder="0" allowfullscreen></iframe>');
+      this.timeline.addTimeAction(77, this.showText.bind(this),  "Sorry it's gone!");
+      this.timeline.addTimeAction(80, this.showRichText.bind(this),  '<iframe width="560" height="315" src="https://www.youtube.com/embed/ji51y8ALuQ8" frameborder="0" allowfullscreen></iframe>');
+      this.timeline.addTimeAction(97, this.showRichText.bind(this),  '<iframe src="//www.slideshare.net/slideshow/embed_code/key/h5qOG1h3rv5lZh" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/ElodieAscenci/10-ways-to-spread-the-love-in-the-office" title="10 Ways to Spread The Love in The Office" target="_blank">10 Ways to Spread The Love in The Office</a> </strong> de <strong><a target="_blank" href="https://www.slideshare.net/ElodieAscenci">Elodie Ascenci</a></strong> </div>');
+    }
+
+    /** Start time text display **/
+    td.play = function() {
+      var t=0;
+      var counter=null;
+      function tick() {
+        this.handleTick(t);
+        t+=1;
+        if (t > 100) {
+          clearInterval(counter);
+        }
+      }
+
+      counter = setInterval(tick.bind(this), 1000);
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+      td.setup();
+      td.render();
+      td.play();
+    });
+  </script>
+</body>
+</html>
