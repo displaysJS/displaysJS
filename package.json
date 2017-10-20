@@ -16,7 +16,8 @@
     "build-md-docs": "documentation build src/** -f md -o docs/API.md",
     "lint-docs": "documentation lint src/**",
     "serve-docs": "documentation serve src/**",
-    "watch-docs": "documentation serve --watch src/**"
+    "watch-docs": "documentation serve --watch src/**",
+    "serve-example": "lite-server --baseDir='example'"
   },
   "dependencies": {
     "eventemitter2": "^4.1.0"
@@ -30,6 +31,7 @@
     "babel-runtime": "^6.26.0",
     "documentation": "^5.3.3",
     "file-loader": "^1.1.5",
+    "lite-server": "^2.3.0",
     "mocha": "^4.0.1",
     "parallel-webpack": "^2.2.0",
     "webpack": "^3.7.1"
