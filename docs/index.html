@@ -1,0 +1,897 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>displaysJS 1.0.0 | Documentation</title>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link href='assets/bass.css' type='text/css' rel='stylesheet' />
+  <link href='assets/style.css' type='text/css' rel='stylesheet' />
+  <link href='assets/github.css' type='text/css' rel='stylesheet' />
+  <link href='assets/split.css' type='text/css' rel='stylesheet' />
+</head>
+<body class='documentation m0'>
+    <div class='flex'>
+      <div id='split-left' class='overflow-auto fs0 height-viewport-100'>
+        <div class='py1 px2'>
+          <h3 class='mb0 no-anchor'>displaysJS</h3>
+          <div class='mb1'><code>1.0.0</code></div>
+          <input
+            placeholder='Filter'
+            id='filter-input'
+            class='col12 block input'
+            type='text' />
+          <div id='toc'>
+            <ul class='list-reset h5 py1-ul'>
+              
+                
+                <li><a
+                  href='#on'
+                  class="">
+                  on
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#modes'
+                  class="">
+                  MODES
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#setasready'
+                  class="">
+                  setAsReady
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#ready'
+                  class="">
+                  ready
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#setasprimarydisplay'
+                  class="">
+                  setAsPrimaryDisplay
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#isprimarydisplay'
+                  class="">
+                  isPrimaryDisplay
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#tick'
+                  class="">
+                  tick
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#seek'
+                  class="">
+                  seek
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#enableusermode'
+                  class="">
+                  enableUserMode
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#releaseusermode'
+                  class="">
+                  releaseUserMode
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#isinusermode'
+                  class="">
+                  isInUserMode
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#handletick'
+                  class="">
+                  handleTick
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#handlepause'
+                  class="">
+                  handlePause
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#timeaction'
+                  class="">
+                  TimeAction
+                  
+                </a>
+                
+                </li>
+              
+            </ul>
+          </div>
+          <div class='mt1 h6 quiet'>
+            <a href='http://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
+          </div>
+        </div>
+      </div>
+      <div id='split-right' class='relative overflow-auto height-viewport-100'>
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='on'>
+      on
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Handle case where a display is not in sync or
+needs all other displays to pause.*</p>
+
+
+  <div class='pre p1 fill-light mt0'>on</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='modes'>
+      MODES
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>MODES is different modes a display may have
+Normal is the default Display mode
+User is a state where user is interacting with the Display instance
+Note: Implementation depends on Display</p>
+
+
+  <div class='pre p1 fill-light mt0'>MODES</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='setasready'>
+      setAsReady
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>This function set's the Display instance as being ready.</p>
+
+
+  <div class='pre p1 fill-light mt0'>setAsReady()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='ready'>
+      ready
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>This is just a getter to check if the dislay ready.</p>
+
+
+  <div class='pre p1 fill-light mt0'>ready()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='setasprimarydisplay'>
+      setAsPrimaryDisplay
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>This set's the display as being the primary display.</p>
+
+
+  <div class='pre p1 fill-light mt0'>setAsPrimaryDisplay()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='isprimarydisplay'>
+      isPrimaryDisplay
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>This is a getter to check if a display is the primary display</p>
+
+
+  <div class='pre p1 fill-light mt0'>isPrimaryDisplay()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='tick'>
+      tick
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Note: Tick should dependent per display.
+By default it ticks by 1 however it can be overwritten
+by a display implementation.
+*** Only Primary Display should tick.</p>
+
+
+  <div class='pre p1 fill-light mt0'>tick()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='seek'>
+      seek
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Seek skips to a given time.</p>
+
+
+  <div class='pre p1 fill-light mt0'>seek(t: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>t</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='enableusermode'>
+      enableUserMode
+    </h3>
+    
+    
+  </div>
+  
+
+  <ul>
+<li>Helper to enable user mode
+Only use this if UserMode is needed</li>
+</ul>
+
+
+  <div class='pre p1 fill-light mt0'>enableUserMode()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='releaseusermode'>
+      releaseUserMode
+    </h3>
+    
+    
+  </div>
+  
+
+  <ul>
+<li>Helper to disable user mode
+Only use this if UserMode is used</li>
+</ul>
+
+
+  <div class='pre p1 fill-light mt0'>releaseUserMode()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='isinusermode'>
+      isInUserMode
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Getter to check if in UserMode</p>
+
+
+  <div class='pre p1 fill-light mt0'>isInUserMode()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='handletick'>
+      handleTick
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Listener for tick actions
+Handles call to Timeline for current tick.</p>
+
+
+  <div class='pre p1 fill-light mt0'>handleTick()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='handlepause'>
+      handlePause
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Listener for pause action
+Handles call to Timeline for current tick.</p>
+
+
+  <div class='pre p1 fill-light mt0'>handlePause()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='timeaction'>
+      TimeAction
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Class representing a time action.</p>
+
+
+  <div class='pre p1 fill-light mt0'>new TimeAction(func: any, args: any, name: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>func</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>args</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>name</span> <code class='quiet'>(any
+            = <code>&quot;undefined&quot;</code>)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+      </div>
+    </div>
+  <script src='assets/anchor.js'></script>
+  <script src='assets/split.js'></script>
+  <script src='assets/site.js'></script>
+</body>
+</html>

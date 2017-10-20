@@ -9,7 +9,14 @@
   "scripts": {
     "test": "mocha test/ --reporter=nyan",
     "build": "webpack --config webpack.config.js",
-    "build-samples": "webpack --config example/samples/webpack.config.js"
+    "build-samples": "webpack --config example/samples/webpack.config.js",
+    "build-docs": "yarn build-html-docs; yarn build-json-docs; yarn build-md-docs;",
+    "build-html-docs": "documentation build src/** -f html -o docs",
+    "build-json-docs": "documentation build src/** -f json -o docs/API.json",
+    "build-md-docs": "documentation build src/** -f md -o docs/API.md",
+    "lint-docs": "documentation lint src/**",
+    "serve-docs": "documentation serve src/**",
+    "watch-docs": "documentation serve --watch src/**"
   },
   "dependencies": {
     "eventemitter2": "^4.1.0"
@@ -21,6 +28,7 @@
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-runtime": "^6.26.0",
+    "documentation": "^5.3.3",
     "file-loader": "^1.1.5",
     "mocha": "^4.0.1",
     "parallel-webpack": "^2.2.0",
