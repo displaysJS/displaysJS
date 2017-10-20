@@ -2,94 +2,237 @@
 
 ### Table of Contents
 
--   [on](#on)
--   [MODES](#modes)
--   [setAsReady](#setasready)
--   [ready](#ready)
--   [setAsPrimaryDisplay](#setasprimarydisplay)
--   [isPrimaryDisplay](#isprimarydisplay)
--   [tick](#tick)
--   [seek](#seek)
--   [enableUserMode](#enableusermode)
--   [releaseUserMode](#releaseusermode)
--   [isInUserMode](#isinusermode)
--   [handleTick](#handletick)
--   [handlePause](#handlepause)
+-   [Display](#display)
+    -   [setContext](#setcontext)
+    -   [setAsReady](#setasready)
+    -   [ready](#ready)
+    -   [setAsPrimaryDisplay](#setasprimarydisplay)
+    -   [isPrimaryDisplay](#isprimarydisplay)
+    -   [tick](#tick)
+    -   [enableUserMode](#enableusermode)
+    -   [releaseUserMode](#releaseusermode)
+    -   [isInUserMode](#isinusermode)
+    -   [handleTick](#handletick)
+    -   [handlePause](#handlepause)
+    -   [handleContinue](#handlecontinue)
+    -   [setup](#setup)
+    -   [render](#render)
+    -   [pause](#pause)
+    -   [play](#play)
+    -   [seek](#seek)
+    -   [reset](#reset)
 -   [TimeAction](#timeaction)
+    -   [trigger](#trigger)
+-   [Timeline](#timeline)
+    -   [addTimeAction](#addtimeaction)
+    -   [callTimeAction](#calltimeaction)
+    -   [callNearestTimeAction](#callnearesttimeaction)
+    -   [getNearestTime](#getnearesttime)
 
-## on
+## Display
 
-Handle case where a display is not in sync or
-needs all other displays to pause.\*
-
-## MODES
-
-MODES is different modes a display may have
-Normal is the default Display mode
-User is a state where user is interacting with the Display instance
-      Note: Implementation depends on Display
-
-## setAsReady
-
-This function set's the Display instance as being ready.
-
-## ready
-
-This is just a getter to check if the dislay ready.
-
-## setAsPrimaryDisplay
-
-This set's the display as being the primary display.
-
-## isPrimaryDisplay
-
-This is a getter to check if a display is the primary display
-
-## tick
-
-Note: Tick should dependent per display.
-      By default it ticks by 1 however it can be overwritten
-      by a display implementation.
-      \*\*\* Only Primary Display should tick.
-
-## seek
-
-Seek skips to a given time.
+The Base class for all Displays.
 
 **Parameters**
 
--   `t`  
+-   `args` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An object with arguments to initialize the display.
+    -   `args.name` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Name of Display Instance
+    -   `args.timeline_treshold` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** A treshold of error for picking a time action for the display
+    -   `args.context` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** (** optional**) Reference to DisplayCoordinator's context
 
-## enableUserMode
+### setContext
 
--   Helper to enable user mode
-    Only use this if UserMode is needed
+Set the context for the Display.
 
-## releaseUserMode
+**Parameters**
 
--   Helper to disable user mode
-    Only use this if UserMode is used
+-   `context` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** DisplayCoordinator's context
 
-## isInUserMode
+### setAsReady
 
-Getter to check if in UserMode
+Set the the Display's ready state to True.
 
-## handleTick
+### ready
 
-Listener for tick actions
-Handles call to Timeline for current tick.
+Check if Display is ready
 
-## handlePause
+Returns **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if Ready, False otherwise
 
-Listener for pause action
-Handles call to Timeline for current tick.
+### setAsPrimaryDisplay
+
+Set the Display as the Primary Display for a performance.
+
+### isPrimaryDisplay
+
+Check if the Display is the PrimaryDisplay for the performance
+
+Returns **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if PrimaryDisplay, False otherwise
+
+### tick
+
+This function is responsible for controling time flow for a performance
+if the Display is the PrimaryDisplay in a performance.
+
+** Note ** Your Display implementation may override this to properly handle
+time tick as needed.
+
+-   By default, this function increments the time flow by 1 and emits it to all
+    listeners in the performance.
+-   Ensure that the Display is the PrimaryDisplay before controlling time.
+
+### enableUserMode
+
+This function sets the Display mode to user mode.
+
+** Note **
+Only use this if user mode is needed
+
+### releaseUserMode
+
+This function changes the Display mode to Normal mode.
+
+### isInUserMode
+
+Check if Display is in user mode
+
+Returns **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** True if in user mode, False otherwise
+
+### handleTick
+
+Handles tick events for the Display.
+
+** Note **
+When a tick event is emitted in the performance, this function get's trigered.
+
+You may overwrite this function to better handle your Display implementation's
+case.
+
+-   By default it calls the nearest TimeAction at the current performance time.
+
+### handlePause
+
+This function handles any pause event triggered by in a performance.
+
+** Note **
+By default it calls the Display's pause function.
+
+-   This may be overwritten to handle pause events differently for the Display implementation.
+
+### handleContinue
+
+This function handles any continue event triggered by in a performance. Ussually after a pause.
+
+** Note **
+By default it calls the Display's play function.
+
+-   This may be overwritten to handle continue events differently for the Display implementation.
+
+### setup
+
+This function is a placeholder to perform any setup the Display needs done..
+
+** Note **
+You **need** to overwrite this function to do handle anything the Display needs
+to setup.
+
+It is a good idea to mark the Display as ready here. Or in render().
+
+### render
+
+This function is a placeholder to be overwritten to handle any rendering that
+needs to performed at startup after setup in the performance.
+
+** Note **
+You **need** to overwrite this function to do handle anything the Display needs
+to render.
+
+(** optional **) This can return a value to be appended to the DisplayCoordinator's Stage.
+
+### pause
+
+This function pauses the Display and does not respond to Ticks
+
+### play
+
+This function removes the Display from a pause state and performs the action
+from the Display's timeline at the current performance time (context.time).
+
+** Note **
+You may overwrite this function to do what you'd prefer in your Display implementation.
+
+### seek
+
+This function skips to a given time for the Display.
+
+**Parameters**
+
+-   `t` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The time to skip to.
+
+### reset
+
+This function resets the Display's timeline back to 0
+
+** Note **
+You may overwrite this function to do what you'd prefer in your Display implementation.
 
 ## TimeAction
 
-Class representing a time action.
+TimeAction is the class representing a time Action that can occur in a Timeline.
 
 **Parameters**
 
--   `func`  
--   `args`  
--   `name`   (optional, default `"undefined"`)
+-   `func` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** Reference to a function to call on trigger
+-   `args` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A list of arguments to pass to the func on trigger.
+-   `name` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** (** optional **) A name for the TimeAction (optional, default `"undefined"`)
+
+### trigger
+
+Trigger an action by calling _func_ and passing it _args_ passed from initialization.
+
+## Timeline
+
+Timeline with many actions
+
+**Parameters**
+
+-   `args` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Object containing Timeline args.
+    -   `args.name` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The name of the Timeline. (optional, default `"undefined"`)
+    -   `args.treshold` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The treshold for calling TimeActions (optional, default `5`)
+
+### addTimeAction
+
+Add a time action to the timeline.
+
+**Parameters**
+
+-   `time` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The time value at which to perform the action
+-   `action` **[function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** The function to call when trigger
+-   `args` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** The args to pass to function on trigger (optional, default `[]`)
+-   `name` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The name of the TimeAction (optional, default `"undefined"`)
+
+### callTimeAction
+
+This function triggers the TimeAction on the Timeline at the given time if there is one.
+
+**Parameters**
+
+-   `time` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The time value at which the action is at.
+
+### callNearestTimeAction
+
+This function triggers the nearest TimeAction on the Timeline within the treshold
+ of the Timeline.
+
+**Parameters**
+
+-   `time` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The time value to call action within treshold for.
+
+### getNearestTime
+
+This function is a helper to get the nearest time value within the Timeline's treshold
+
+**Parameters**
+
+-   `time` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The time to look within Timeline treshold
+
+Returns **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The value within treshold. "NOT_FOUND" if no value within treshold.

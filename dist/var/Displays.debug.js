@@ -78,7 +78,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var NOT_FOUND = "NOTFOUND";
 
 /**
- * Class representing a time action.
+ * TimeAction is the class representing a time Action that can occur in a Timeline.
+ *
+ * @param {function} func Reference to a function to call on trigger
+ * @param {Object} args A list of arguments to pass to the func on trigger.
+ * @param {String} name (** optional **) A name for the TimeAction
  */
 
 var TimeAction = function () {
@@ -97,6 +101,11 @@ var TimeAction = function () {
     value: function toString() {
       return 'TimeAction:(' + this.name + ')';
     }
+
+    /**
+     * Trigger an action by calling *func* and passing it *args* passed from initialization.
+     */
+
   }, {
     key: "trigger",
     value: function trigger() {
@@ -109,6 +118,14 @@ var TimeAction = function () {
 }();
 
 ;
+
+/**
+ * Timeline with many actions
+ *
+ * @param {Object} args Object containing Timeline args.
+ * @param {String} [args.name="undefined"] The name of the Timeline.
+ * @param {Number} [args.treshold=5] The treshold for calling TimeActions
+ */
 
 var Timeline = function () {
   function Timeline(args) {
@@ -124,6 +141,15 @@ var Timeline = function () {
     value: function toString() {
       return '(' + this.name + ')';
     }
+
+    /**
+     * Add a time action to the timeline.
+     * @param {Number} time               The time value at which to perform the action
+     * @param {function} action           The function to call when trigger
+     * @param {Array}  [args=[]]          The args to pass to function on trigger
+     * @param {String} [name="undefined"] The name of the TimeAction
+     */
+
   }, {
     key: "addTimeAction",
     value: function addTimeAction(time, action) {
@@ -135,6 +161,12 @@ var Timeline = function () {
       }
       this.time_actions[time] = new TimeAction(action, args, name);
     }
+
+    /**
+     * This function triggers the TimeAction on the Timeline at the given time if there is one.
+     * @param  {Number} time The time value at which the action is at.
+     */
+
   }, {
     key: "callTimeAction",
     value: function callTimeAction(time) {
@@ -142,6 +174,13 @@ var Timeline = function () {
         this.time_actions[time].trigger();
       }
     }
+
+    /**
+     * This function triggers the nearest TimeAction on the Timeline within the treshold
+     *  of the Timeline.
+     * @param  {Number} time The time value to call action within treshold for.
+     */
+
   }, {
     key: "callNearestTimeAction",
     value: function callNearestTimeAction(time) {
@@ -156,6 +195,13 @@ var Timeline = function () {
         this.time_actions[t].trigger();
       }
     }
+
+    /**
+     * This function is a helper to get the nearest time value within the Timeline's treshold
+     * @param  {Number} time The time to look within Timeline treshold
+     * @return {Number}      The value within treshold. "NOT_FOUND" if no value within treshold.
+     */
+
   }, {
     key: "getNearestTime",
     value: function getNearestTime(time) {
@@ -221,8 +267,7 @@ var DisplayCoordinator = function () {
       }
     }
 
-    /** Handle case where a display is not in sync or
-    needs all other displays to pause.**/
+    // Setup event listeners for DisplayCoordinator
     this.context.emitter.on("tick", this.handleTick.bind(this));
     this.context.emitter.on("pause", this.pausePerformance.bind(this));
     this.context.emitter.on("continue", this.continuePerformance.bind(this));
@@ -1317,13 +1362,21 @@ var _timeline = __webpack_require__(0);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-/**
-* MODES is different modes a display may have
-* Normal is the default Display mode
-* User is a state where user is interacting with the Display instance
-*       Note: Implementation depends on Display
-**/
+// An object with modes available to a Display.
+// MODES are used to track Display modes.
+// Such as User Interaction Mode vs Normal Display Mode.
 var MODES = { NORMAL: 0, USER: 1 };
+
+/**
+ * The Base class for all Displays.
+ *
+ * @param {Object} args An object with arguments to initialize the display.
+ *
+ * @param {String} args.name Name of Display Instance
+ * @param {Number} args.timeline_treshold A treshold of error for picking a time action for the display
+ *
+ * @param {Object}  args.context (** optional**) Reference to DisplayCoordinator's context
+ */
 
 var Display = function () {
   function Display(args) {
@@ -1343,6 +1396,13 @@ var Display = function () {
     value: function toString() {
       return '(' + this.name + ')';
     }
+
+    /**
+     * Set the context for the Display.
+     *
+     * @param {Object} context DisplayCoordinator's context
+     */
+
   }, {
     key: "setContext",
     value: function setContext(context) {
@@ -1351,9 +1411,11 @@ var Display = function () {
       this.context.emitter.on("pause", this.handlePause.bind(this));
       this.context.emitter.on("continue", this.handleContinue.bind(this));
     }
+
     /**
-    * This function set's the Display instance as being ready.
-    **/
+     * Set the the Display's ready state to True.
+     *
+     */
 
   }, {
     key: "setAsReady",
@@ -1363,27 +1425,34 @@ var Display = function () {
         this.context.emitter.emit("ready");
       }
     }
+
     /**
-    * This is just a getter to check if the dislay ready.
-    **/
+     * Check if Display is ready
+     *
+     * @return {Boolean} True if Ready, False otherwise
+     */
 
   }, {
     key: "ready",
     value: function ready() {
       return this.m_ready;
     }
+
     /**
-    * This set's the display as being the primary display.
-    **/
+     * Set the Display as the Primary Display for a performance.
+     */
 
   }, {
     key: "setAsPrimaryDisplay",
     value: function setAsPrimaryDisplay() {
       this.is_primary_display = true;
     }
+
     /**
-    * This is a getter to check if a display is the primary display
-    **/
+     * Check if the Display is the PrimaryDisplay for the performance
+     *
+     * @return {Boolean} True if PrimaryDisplay, False otherwise
+     */
 
   }, {
     key: "isPrimaryDisplay",
@@ -1394,12 +1463,17 @@ var Display = function () {
         return false;
       }
     }
+
     /**
-    * Note: Tick should dependent per display.
-    *       By default it ticks by 1 however it can be overwritten
-    *       by a display implementation.
-    *       *** Only Primary Display should tick.
-    **/
+     * This function is responsible for controling time flow for a performance
+     * if the Display is the PrimaryDisplay in a performance.
+     *
+     * ** Note ** Your Display implementation may override this to properly handle
+     * time tick as needed.
+     * * By default, this function increments the time flow by 1 and emits it to all
+     * listeners in the performance.
+     * * Ensure that the Display is the PrimaryDisplay before controlling time.
+     */
 
   }, {
     key: "tick",
@@ -1409,41 +1483,35 @@ var Display = function () {
         this.context.time += 1;
       }
     }
-    /**
-    * Seek skips to a given time.
-    * @t :  Time to skip to
-    **/
 
-  }, {
-    key: "seek",
-    value: function seek(t) {
-      this.timeline.callTimeAction(t);
-    }
     /**
-    ** Helper to enable user mode
-    * Only use this if UserMode is needed
-    *
-    **/
+     * This function sets the Display mode to user mode.
+     *
+     * ** Note **
+     * Only use this if user mode is needed
+     */
 
   }, {
     key: "enableUserMode",
     value: function enableUserMode() {
-      return this.mode = MODES.USER;
+      this.mode = MODES.USER;
     }
+
     /**
-    ** Helper to disable user mode
-    * Only use this if UserMode is used
-    *
-    **/
+     * This function changes the Display mode to Normal mode.
+     *
+     */
 
   }, {
     key: "releaseUserMode",
     value: function releaseUserMode() {
-      return this.mode = MODES.NORMAL;
+      this.mode = MODES.NORMAL;
     }
+
     /**
-    * Getter to check if in UserMode
-    **/
+     * Check if Display is in user mode
+     * @return {Boolean} True if in user mode, False otherwise
+     */
 
   }, {
     key: "isInUserMode",
@@ -1453,39 +1521,124 @@ var Display = function () {
       }
       return false;
     }
+
     /**
-    * Listener for tick actions
-    * Handles call to Timeline for current tick.
-    **/
+     * Handles tick events for the Display.
+     *
+     * ** Note **
+     * When a tick event is emitted in the performance, this function get's trigered.
+     *
+     * You may overwrite this function to better handle your Display implementation's
+     * case.
+     * * By default it calls the nearest TimeAction at the current performance time.
+     */
 
   }, {
     key: "handleTick",
     value: function handleTick() {
       this.timeline.callTimeAction(this.context.time);
     }
+
     /**
-    * Listener for pause action
-    * Handles call to Timeline for current tick.
-    **/
+     * This function handles any pause event triggered by in a performance.
+     *
+     * ** Note **
+     * By default it calls the Display's pause function.
+     * * This may be overwritten to handle pause events differently for the Display implementation.
+     * @TODO Implement handlePause default action
+     */
 
   }, {
     key: "handlePause",
     value: function handlePause() {}
+
+    /**
+     * This function handles any continue event triggered by in a performance. Ussually after a pause.
+     *
+     * ** Note **
+     * By default it calls the Display's play function.
+     *
+     * * This may be overwritten to handle continue events differently for the Display implementation.
+     * @TODO Implement handleContinue default action
+     */
+
   }, {
     key: "handleContinue",
     value: function handleContinue() {}
+
+    /**
+     * This function is a placeholder to perform any setup the Display needs done..
+     *
+     * ** Note **
+     * You **need** to overwrite this function to do handle anything the Display needs
+     * to setup.
+     *
+     * It is a good idea to mark the Display as ready here. Or in render().
+     *
+     */
+
   }, {
     key: "setup",
     value: function setup() {}
+
+    /**
+     * This function is a placeholder to be overwritten to handle any rendering that
+     * needs to performed at startup after setup in the performance.
+     *
+     * ** Note **
+     * You **need** to overwrite this function to do handle anything the Display needs
+     * to render.
+     *
+     * (** optional **) This can return a value to be appended to the DisplayCoordinator's Stage.
+     */
+
   }, {
     key: "render",
     value: function render() {}
-  }, {
-    key: "play",
-    value: function play() {}
+
+    /**
+     * This function pauses the Display and does not respond to Ticks
+     *
+     * @TODO Implement pause default Action.
+     */
+
   }, {
     key: "pause",
     value: function pause() {}
+
+    /**
+     * This function removes the Display from a pause state and performs the action
+     * from the Display's timeline at the current performance time (context.time).
+     *
+     * ** Note **
+     * You may overwrite this function to do what you'd prefer in your Display implementation.
+     * @TODO Implement play default Action.
+     */
+
+  }, {
+    key: "play",
+    value: function play() {}
+
+    /**
+     * This function skips to a given time for the Display.
+     *
+     * @param  {Number} t The time to skip to.
+     */
+
+  }, {
+    key: "seek",
+    value: function seek(t) {
+      this.timeline.callTimeAction(t);
+    }
+
+    /**
+     * This function resets the Display's timeline back to 0
+     *
+     * ** Note **
+     * You may overwrite this function to do what you'd prefer in your Display implementation.
+     * @TODO Implement reset default Action.
+     */
+
   }, {
     key: "reset",
     value: function reset() {}

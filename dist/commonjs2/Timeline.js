@@ -79,7 +79,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var NOT_FOUND = "NOTFOUND";
 
 /**
- * Class representing a time action.
+ * TimeAction is the class representing a time Action that can occur in a Timeline.
+ *
+ * @param {function} func Reference to a function to call on trigger
+ * @param {Object} args A list of arguments to pass to the func on trigger.
+ * @param {String} name (** optional **) A name for the TimeAction
  */
 
 var TimeAction = function () {
@@ -98,6 +102,11 @@ var TimeAction = function () {
     value: function toString() {
       return 'TimeAction:(' + this.name + ')';
     }
+
+    /**
+     * Trigger an action by calling *func* and passing it *args* passed from initialization.
+     */
+
   }, {
     key: "trigger",
     value: function trigger() {
@@ -110,6 +119,14 @@ var TimeAction = function () {
 }();
 
 ;
+
+/**
+ * Timeline with many actions
+ *
+ * @param {Object} args Object containing Timeline args.
+ * @param {String} [args.name="undefined"] The name of the Timeline.
+ * @param {Number} [args.treshold=5] The treshold for calling TimeActions
+ */
 
 var Timeline = function () {
   function Timeline(args) {
@@ -125,6 +142,15 @@ var Timeline = function () {
     value: function toString() {
       return '(' + this.name + ')';
     }
+
+    /**
+     * Add a time action to the timeline.
+     * @param {Number} time               The time value at which to perform the action
+     * @param {function} action           The function to call when trigger
+     * @param {Array}  [args=[]]          The args to pass to function on trigger
+     * @param {String} [name="undefined"] The name of the TimeAction
+     */
+
   }, {
     key: "addTimeAction",
     value: function addTimeAction(time, action) {
@@ -136,6 +162,12 @@ var Timeline = function () {
       }
       this.time_actions[time] = new TimeAction(action, args, name);
     }
+
+    /**
+     * This function triggers the TimeAction on the Timeline at the given time if there is one.
+     * @param  {Number} time The time value at which the action is at.
+     */
+
   }, {
     key: "callTimeAction",
     value: function callTimeAction(time) {
@@ -143,6 +175,13 @@ var Timeline = function () {
         this.time_actions[time].trigger();
       }
     }
+
+    /**
+     * This function triggers the nearest TimeAction on the Timeline within the treshold
+     *  of the Timeline.
+     * @param  {Number} time The time value to call action within treshold for.
+     */
+
   }, {
     key: "callNearestTimeAction",
     value: function callNearestTimeAction(time) {
@@ -157,6 +196,13 @@ var Timeline = function () {
         this.time_actions[t].trigger();
       }
     }
+
+    /**
+     * This function is a helper to get the nearest time value within the Timeline's treshold
+     * @param  {Number} time The time to look within Timeline treshold
+     * @return {Number}      The value within treshold. "NOT_FOUND" if no value within treshold.
+     */
+
   }, {
     key: "getNearestTime",
     value: function getNearestTime(time) {
