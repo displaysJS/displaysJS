@@ -237,6 +237,27 @@ var _eventemitter = __webpack_require__(2);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+/**
+ * The DisplayCoordinator is reponsible for coordinating and starting a performance
+ *
+ * Creates a context for the performance and passes it the Display instances.
+ * Sets up EventListeners for DisplayCoordinator
+ *
+ * @param {Object} args Initialization arguments for the DisplayCoordinator
+ * @param {String} [args.name="undefined"] The of the DisplayCoordinator or the performance.
+ * @param {Number} [args.duration=0] The length of the Perfomance
+ * @param {Object} [args.stage={add:function(args) {}}] A stage to add Display render to if available.
+ *
+ * ** Note **
+ * Stage is not needed unless you have a specific type of Stage you want to append your Display renders to.
+ * Otherwise you can just render where you need it when the DisplayCoordinator calls render on the Display.
+ *
+ * @param {Array} args.displays A list of Display instances to add to performance.
+ * @param {Number} args.timeline_treshold  A treshold to use for DisplayCoordinator's (performance) Timeline.
+ * @param {Display} args.primary_display  The PrimaryDisplay for the performance. It controls the time flow.
+ *
+ *
+ */
 var DisplayCoordinator = function () {
   function DisplayCoordinator(args) {
     _classCallCheck(this, DisplayCoordinator);
@@ -278,6 +299,15 @@ var DisplayCoordinator = function () {
     value: function toString() {
       return '(' + this.name + ')';
     }
+
+    /**
+     * Checks if all Display instances are ready.
+     * Emits 'all_ready' if All Displays are ready.
+     *
+     * @TODO Change checkAllReady to performWhenAllReady.
+     * @body Keeps waiting until all Displays are ready and starts the performance.
+     */
+
   }, {
     key: "checkAllReady",
     value: function checkAllReady() {
@@ -290,6 +320,15 @@ var DisplayCoordinator = function () {
         this.context.emitter.emit("all_ready");
       }
     }
+
+    /**
+     *  Helper to check if All Displays are ready to start performance.
+     *
+     * @return {Boolean} true if all Displays are ready, false Otherwise
+     * @TODO Change ready vs not ready logic.
+     * @body Make this checkAllReady instead of allReady
+     */
+
   }, {
     key: "allReady",
     value: function allReady() {
@@ -299,23 +338,62 @@ var DisplayCoordinator = function () {
         return false;
       }
     }
+
+    /**
+     * The DisplayCoordinator's tick function.
+     * Handles tick and emits it to all listeners in the performance.
+     * Increases time by 1 unit.
+     *
+     *  ** Note ** The PrimaryDisplay should be doing this, not the DisplayCoordinator
+     */
+
   }, {
     key: "tick",
     value: function tick() {
       this.context.time += 1;
       this.context.emitter.emit('tick');
     }
+
+    /**
+     * Handler for Tick events for the DisplayCoordinator.
+     * Calls Time actions on the DisplayCoordinator's timeline
+     *
+     * ** Note **
+     * Overwrite if you think your DisplayCoordinator should have more control.
+     */
+
   }, {
     key: "handleTick",
     value: function handleTick() {
       this.timeline.callTimeAction(this.context.time);
     }
+
+    /**
+     * Skips time to a given time t for the performance.
+     * And emits 'tick' for all listeners
+     *
+     * ** Note ** The PrimaryDisplay should be doing this, not the DisplayCoordinator
+     * But You may use at your own risk.
+     *
+     * @param  {Number} t The time to skip to.
+     */
+
   }, {
     key: "seek",
     value: function seek(t) {
       this.context.time = t;
       this.context.emitter.emit('tick');
     }
+
+    /**
+     * Starts the performance.
+     * * Calls Setup on all display instances
+     * * Then calls Render on them and appends them to stage if anything is returned.
+     * * Checks that all Displays are ready then Starts all Displays.
+     *
+     * @TODO Adjust start of performance logic
+     */
+
   }, {
     key: "perform",
     value: function perform() {
@@ -339,6 +417,11 @@ var DisplayCoordinator = function () {
         this.context.emitter.on("all_ready", startup.bind(this));
       }
     }
+
+    /**
+     * Continues the performance where if paused
+     */
+
   }, {
     key: "continuePerformance",
     value: function continuePerformance() {
@@ -346,6 +429,11 @@ var DisplayCoordinator = function () {
         this.displays[display].play();
       }
     }
+
+    /**
+     * Pauses the performance
+     */
+
   }, {
     key: "pausePerformance",
     value: function pausePerformance() {
@@ -353,6 +441,11 @@ var DisplayCoordinator = function () {
         this.displays[display].pause();
       }
     }
+
+    /**
+     * Resets all displays and stops the performance.
+     */
+
   }, {
     key: "stopPerformance",
     value: function stopPerformance() {

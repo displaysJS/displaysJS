@@ -25,6 +25,82 @@
               
                 
                 <li><a
+                  href='#displaycoordinator'
+                  class=" toggle-sibling">
+                  DisplayCoordinator
+                  <span class='icon'>▸</span>
+                </a>
+                
+                <div class='toggle-target display-none'>
+                  
+                  
+                    <ul class='list-reset py1-ul pl1'>
+                      <li class='h5'><span>Instance members</span></li>
+                      
+                      <li><a
+                        href='#displaycoordinatorcheckallready'
+                        class='regular pre-open'>
+                        #checkAllReady
+                      </a></li>
+                      
+                      <li><a
+                        href='#displaycoordinatorallready'
+                        class='regular pre-open'>
+                        #allReady
+                      </a></li>
+                      
+                      <li><a
+                        href='#displaycoordinatortick'
+                        class='regular pre-open'>
+                        #tick
+                      </a></li>
+                      
+                      <li><a
+                        href='#displaycoordinatorhandletick'
+                        class='regular pre-open'>
+                        #handleTick
+                      </a></li>
+                      
+                      <li><a
+                        href='#displaycoordinatorseek'
+                        class='regular pre-open'>
+                        #seek
+                      </a></li>
+                      
+                      <li><a
+                        href='#displaycoordinatorperform'
+                        class='regular pre-open'>
+                        #perform
+                      </a></li>
+                      
+                      <li><a
+                        href='#displaycoordinatorcontinueperformance'
+                        class='regular pre-open'>
+                        #continuePerformance
+                      </a></li>
+                      
+                      <li><a
+                        href='#displaycoordinatorpauseperformance'
+                        class='regular pre-open'>
+                        #pausePerformance
+                      </a></li>
+                      
+                      <li><a
+                        href='#displaycoordinatorstopperformance'
+                        class='regular pre-open'>
+                        #stopPerformance
+                      </a></li>
+                      
+                    </ul>
+                  
+                  
+                  
+                </div>
+                
+                </li>
+              
+                
+                <li><a
                   href='#display'
                   class=" toggle-sibling">
                   Display
@@ -235,6 +311,605 @@
         </div>
       </div>
       <div id='split-right' class='relative overflow-auto height-viewport-100'>
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='displaycoordinator'>
+      DisplayCoordinator
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>The DisplayCoordinator is reponsible for coordinating and starting a performance</p>
+<p>Creates a context for the performance and passes it the Display instances.
+Sets up EventListeners for DisplayCoordinator</p>
+
+
+  <div class='pre p1 fill-light mt0'>new DisplayCoordinator(args: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>args</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</code>
+	    Initialization arguments for the DisplayCoordinator
+
+          </div>
+          
+          <table class='mt1 mb2 fixed-table h5 col-12'>
+            <colgroup>
+              <col width='30%' />
+              <col width='70%' />
+            </colgroup>
+            <thead>
+              <tr class='bold fill-light'>
+                <th>Name</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody class='mt1'>
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>args.name</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String">String</a></code>
+  
+    (default <code>&quot;undefined&quot;</code>)
+  </td>
+  <td class='break-word'><span>The of the DisplayCoordinator or the performance.
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>args.duration</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></code>
+  
+    (default <code>0</code>)
+  </td>
+  <td class='break-word'><span>The length of the Perfomance
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>args.stage</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>
+  
+    (default <code>{add:function(args){}}</code>)
+  </td>
+  <td class='break-word'><span>A stage to add Display render to if available.
+<p><strong> Note </strong>
+Stage is not needed unless you have a specific type of Stage you want to append your Display renders to.
+Otherwise you can just render where you need it when the DisplayCoordinator calls render on the Display.</p>
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>args.displays</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a></code>
+  </td>
+  <td class='break-word'><span>A list of Display instances to add to performance.
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>args.timeline_treshold</span> <code class='quiet'><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a></code>
+  </td>
+  <td class='break-word'><span>A treshold to use for DisplayCoordinator's (performance) Timeline.
+</span></td>
+</tr>
+
+
+              
+                <tr>
+  <td class='break-word'><span class='code bold'>args.primary_display</span> <code class='quiet'><a href="#display">Display</a></code>
+  </td>
+  <td class='break-word'><span>The PrimaryDisplay for the performance. It controls the time flow.
+</span></td>
+</tr>
+
+
+              
+            </tbody>
+          </table>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Instance Members</div>
+    <div class="clearfix">
+  
+    <div class='border-bottom' id='displaycoordinatorcheckallready'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>checkAllReady()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Checks if all Display instances are ready.
+Emits 'all_ready' if All Displays are ready.</p>
+
+
+  <div class='pre p1 fill-light mt0'>checkAllReady()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='displaycoordinatorallready'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>allReady()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Helper to check if All Displays are ready to start performance.</p>
+
+
+  <div class='pre p1 fill-light mt0'>allReady(): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean</a></code>:
+        true if all Displays are ready, false Otherwise
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='displaycoordinatortick'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>tick()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>The DisplayCoordinator's tick function.
+Handles tick and emits it to all listeners in the performance.
+Increases time by 1 unit.</p>
+<p> <strong> Note </strong> The PrimaryDisplay should be doing this, not the DisplayCoordinator</p>
+
+
+  <div class='pre p1 fill-light mt0'>tick()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='displaycoordinatorhandletick'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>handleTick()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Handler for Tick events for the DisplayCoordinator.
+Calls Time actions on the DisplayCoordinator's timeline</p>
+<p><strong> Note </strong>
+Overwrite if you think your DisplayCoordinator should have more control.</p>
+
+
+  <div class='pre p1 fill-light mt0'>handleTick()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='displaycoordinatorseek'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>seek(t)</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Skips time to a given time t for the performance.
+And emits 'tick' for all listeners</p>
+<p><strong> Note </strong> The PrimaryDisplay should be doing this, not the DisplayCoordinator
+But You may use at your own risk.</p>
+
+
+  <div class='pre p1 fill-light mt0'>seek(t: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>)</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>t</span> <code class='quiet'>(<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number">Number</a>)</code>
+	    The time to skip to.
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='displaycoordinatorperform'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>perform()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Starts the performance.</p>
+<ul>
+<li>Calls Setup on all display instances</li>
+<li>Then calls Render on them and appends them to stage if anything is returned.</li>
+<li>Checks that all Displays are ready then Starts all Displays.</li>
+</ul>
+
+
+  <div class='pre p1 fill-light mt0'>perform()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='displaycoordinatorcontinueperformance'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>continuePerformance()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Continues the performance where if paused</p>
+
+
+  <div class='pre p1 fill-light mt0'>continuePerformance()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='displaycoordinatorpauseperformance'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>pausePerformance()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Pauses the performance</p>
+
+
+  <div class='pre p1 fill-light mt0'>pausePerformance()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+    <div class='border-bottom' id='displaycoordinatorstopperformance'>
+      <div class="clearfix small pointer toggle-sibling">
+        <div class="py1 contain">
+            <a class='icon pin-right py1 dark-link caret-right'>▸</a>
+            <span class='code strong strong truncate'>stopPerformance()</span>
+        </div>
+      </div>
+      <div class="clearfix display-none toggle-target">
+        <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+
+  <p>Resets all displays and stops the performance.</p>
+
+
+  <div class='pre p1 fill-light mt0'>stopPerformance()</div>
+  
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+      </div>
+    </div>
+  
+</div>
+
+  
+
+  
+</section>
+
+          
         
           
             <section class='p2 mb2 clearfix bg-white minishadow'>

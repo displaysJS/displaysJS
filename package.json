@@ -10,7 +10,7 @@
     "test": "mocha test/ --reporter=nyan",
     "build": "webpack --config webpack.config.js",
     "build-samples": "webpack --config example/samples/webpack.config.js",
-    "build-docs": "yarn build-html-docs; yarn build-json-docs; yarn build-md-docs;",
+    "build-docs": "yarn build-html-docs; yarn build-md-docs;",
     "build-html-docs": "documentation build src/** -f html -o docs",
     "build-json-docs": "documentation build src/** -f json -o docs/API.json",
     "build-md-docs": "documentation build src/** -f md -o docs/API.md",

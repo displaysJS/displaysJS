@@ -2,24 +2,34 @@
 
 ### Table of Contents
 
+-   [DisplayCoordinator](#displaycoordinator)
+    -   [checkAllReady](#checkallready)
+    -   [allReady](#allready)
+    -   [tick](#tick)
+    -   [handleTick](#handletick)
+    -   [seek](#seek)
+    -   [perform](#perform)
+    -   [continuePerformance](#continueperformance)
+    -   [pausePerformance](#pauseperformance)
+    -   [stopPerformance](#stopperformance)
 -   [Display](#display)
     -   [setContext](#setcontext)
     -   [setAsReady](#setasready)
     -   [ready](#ready)
     -   [setAsPrimaryDisplay](#setasprimarydisplay)
     -   [isPrimaryDisplay](#isprimarydisplay)
-    -   [tick](#tick)
+    -   [tick](#tick-1)
     -   [enableUserMode](#enableusermode)
     -   [releaseUserMode](#releaseusermode)
     -   [isInUserMode](#isinusermode)
-    -   [handleTick](#handletick)
+    -   [handleTick](#handletick-1)
     -   [handlePause](#handlepause)
     -   [handleContinue](#handlecontinue)
     -   [setup](#setup)
     -   [render](#render)
     -   [pause](#pause)
     -   [play](#play)
-    -   [seek](#seek)
+    -   [seek](#seek-1)
     -   [reset](#reset)
 -   [TimeAction](#timeaction)
     -   [trigger](#trigger)
@@ -28,6 +38,84 @@
     -   [callTimeAction](#calltimeaction)
     -   [callNearestTimeAction](#callnearesttimeaction)
     -   [getNearestTime](#getnearesttime)
+
+## DisplayCoordinator
+
+The DisplayCoordinator is reponsible for coordinating and starting a performance
+
+Creates a context for the performance and passes it the Display instances.
+Sets up EventListeners for DisplayCoordinator
+
+**Parameters**
+
+-   `args` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Initialization arguments for the DisplayCoordinator
+    -   `args.name` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** The of the DisplayCoordinator or the performance. (optional, default `"undefined"`)
+    -   `args.duration` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The length of the Perfomance (optional, default `0`)
+    -   `args.stage` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** A stage to add Display render to if available.** Note **
+        Stage is not needed unless you have a specific type of Stage you want to append your Display renders to.
+        Otherwise you can just render where you need it when the DisplayCoordinator calls render on the Display. (optional, default `{add:function(args){}}`)
+    -   `args.displays` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)** A list of Display instances to add to performance.
+    -   `args.timeline_treshold` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** A treshold to use for DisplayCoordinator's (performance) Timeline.
+    -   `args.primary_display` **[Display](#display)** The PrimaryDisplay for the performance. It controls the time flow.
+
+### checkAllReady
+
+Checks if all Display instances are ready.
+Emits 'all_ready' if All Displays are ready.
+
+### allReady
+
+Helper to check if All Displays are ready to start performance.
+
+Returns **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** true if all Displays are ready, false Otherwise
+
+### tick
+
+The DisplayCoordinator's tick function.
+Handles tick and emits it to all listeners in the performance.
+Increases time by 1 unit.
+
+ ** Note ** The PrimaryDisplay should be doing this, not the DisplayCoordinator
+
+### handleTick
+
+Handler for Tick events for the DisplayCoordinator.
+Calls Time actions on the DisplayCoordinator's timeline
+
+** Note **
+Overwrite if you think your DisplayCoordinator should have more control.
+
+### seek
+
+Skips time to a given time t for the performance.
+And emits 'tick' for all listeners
+
+** Note ** The PrimaryDisplay should be doing this, not the DisplayCoordinator
+But You may use at your own risk.
+
+**Parameters**
+
+-   `t` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** The time to skip to.
+
+### perform
+
+Starts the performance.
+
+-   Calls Setup on all display instances
+-   Then calls Render on them and appends them to stage if anything is returned.
+-   Checks that all Displays are ready then Starts all Displays.
+
+### continuePerformance
+
+Continues the performance where if paused
+
+### pausePerformance
+
+Pauses the performance
+
+### stopPerformance
+
+Resets all displays and stops the performance.
 
 ## Display
 
