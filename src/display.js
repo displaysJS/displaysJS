@@ -1,11 +1,10 @@
 "use strict";
+
 import { Timeline } from "./timeline.js";
 
-/**
- * An object with modes available to a Display.
- * MODES are used to track Display modes.
- * Such as User Interaction Mode vs Normal Display Mode.
- */
+// An object with modes available to a Display.
+// MODES are used to track Display modes.
+// Such as User Interaction Mode vs Normal Display Mode.
 const MODES = {NORMAL:0, USER:1};
 
 /**
