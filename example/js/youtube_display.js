@@ -2,6 +2,7 @@ var Display = Displays.Display;
 
 function YoutubeDisplay(args) {
   Display.call(this, args);
+
   this.script_tag =  document.createElement('script');
   this.script_tag.src = "https://www.youtube.com/iframe_api";
   this.player = document.createElement('div');
@@ -10,11 +11,12 @@ function YoutubeDisplay(args) {
   this.video_id = args.video_id;
 
   this.stopVideo = function () {
-    "Stoping"
+    console.log("Stoping");
     this.player.stopVideo();
     clearInterval(this.counter);
   }
 }
+
 
 YoutubeDisplay.prototype = Object.create(Display.prototype);
 

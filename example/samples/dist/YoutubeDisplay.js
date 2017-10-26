@@ -1,4 +1,4 @@
-var TextDisplay =
+var YoutubeDisplay =
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -61,7 +61,7 @@ var TextDisplay =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -526,7 +526,8 @@ var Timeline = function () {
 module.exports = { Timeline: Timeline, TimeAction: TimeAction };
 
 /***/ }),
-/* 2 */
+/* 2 */,
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -542,114 +543,83 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-/**
- * Class representing a TextDisplay.
- * @extends Display
- */
-var TextDisplay = function (_Display) {
-  _inherits(TextDisplay, _Display);
+var YoutubeDisplay = function (_Display) {
+  _inherits(YoutubeDisplay, _Display);
 
-  /**
-   * Create a TextDisplay.
-   */
-  function TextDisplay(args) {
-    _classCallCheck(this, TextDisplay);
+  function YoutubeDisplay(args) {
+    _classCallCheck(this, YoutubeDisplay);
 
-    var _this = _possibleConstructorReturn(this, (TextDisplay.__proto__ || Object.getPrototypeOf(TextDisplay)).call(this, args));
+    var _this = _possibleConstructorReturn(this, (YoutubeDisplay.__proto__ || Object.getPrototypeOf(YoutubeDisplay)).call(this, args));
 
-    _this.text_canvas = document.createElement('div');
+    _this.player = document.createElement("div");
+    _this.player_id = args.player_id;
+
+    _this.script_tag = document.createElement('script');
+    _this.script_tag.src = "https://www.youtube.com/iframe_api";
+
+    _this.t_ratio = args.t_ratio || 1000;
+    _this.video_id = args.video_id;
     return _this;
   }
 
-  /**
-   * Show Rich Text.
-   * Adds html text to the text_canvas
-   */
-
-
-  _createClass(TextDisplay, [{
-    key: "showRichText",
-    value: function showRichText(text) {
-      this.text_canvas.innerHTML = text;
+  _createClass(YoutubeDisplay, [{
+    key: "stopVideo",
+    value: function stopVideo() {
+      //What is the "Stoping" for
+      this.player.stopVideo();
+      clearInterval(this.counter);
     }
-
-    /**
-     * Show Regular Text.
-     * Adds text to the text_canvas
-     */
-
   }, {
-    key: "showText",
-    value: function showText(text) {
-      this.text_canvas.innerText = text;
+    key: "prepareTimeline",
+    value: function prepareTimeline() {
+      console.log("Prepare Timeline");
     }
-    /**
-     * Clear the text canvas.
-     */
-
-  }, {
-    key: "clearText",
-    value: function clearText() {
-      this.text_canvas.innerText = "";
-    }
-    /**
-     * Clear the text canvas.
-     */
-
-  }, {
-    key: "setProperties",
-    value: function setProperties(args) {
-      this.text_canvas.setAttribute('id', args.canvas_id);
-      this.text_canvas.setAttribute('class', args.canvas_class);
-    }
-    /**
-     * Handle Time Ticks.
-     */
-
   }, {
     key: "handleTick",
     value: function handleTick() {
+      var th = this.timeline.treshold;
+      var t = this.context.time;
       this.timeline.callTimeAction(this.context.time);
     }
-    /**
-     * prepareTimeline is placeholder for how a TextDisplay  instance loads
-     * time actions to it's timeline.
-     */
-
   }, {
-    key: "prepareTimeline",
-    value: function prepareTimeline() {}
-
-    /**
-     * Setup is called by the display coordinator
-     * On Setup we call prepareTimeline.
-     */
-
+    key: "setupPlayer",
+    value: function setupPlayer() {
+      this.player = new YT.Player(this.player_id, {
+        height: '390',
+        width: '640',
+        videoId: this.video_id,
+        events: {
+          'onReady': this.setAsReady.bind(this)
+        }
+      });
+    }
   }, {
     key: "setup",
     value: function setup() {
       this.prepareTimeline();
+      this.firstScriptTag = document.getElementsByTagName('script')[0];
+      this.firstScriptTag.parentNode.insertBefore(this.script_tag, this.firstScriptTag);
+      window.onYouTubeIframeAPIReady = this.setupPlayer.bind(this);
     }
-
-    /**
-     * Suppose to draw the canvas onto the stage
-     * It returns the canvas instance to the drawn unto the stage by
-     * the displayCoordinator
-     */
-
   }, {
     key: "render",
     value: function render() {
-      return this.text_canvas;
+      console.log("Please Render...Ok Rendering");
+    }
+  }, {
+    key: "play",
+    value: function play() {
+      this.player.playVideo();
+      this.counter = setInterval(this.tick.bind(this), this.t_ratio);
     }
   }]);
 
-  return TextDisplay;
+  return YoutubeDisplay;
 }(_display.Display);
 
 ;
 
-module.exports = TextDisplay;
+module.exports = YoutubeDisplay;
 
 /***/ })
 /******/ ]);
