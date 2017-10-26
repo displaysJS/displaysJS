@@ -3,7 +3,8 @@ const webpack = require("webpack");
 
 module.exports = {
   entry: {
-    TextDisplay: './example/samples/text_display.js'
+    TextDisplay: './example/samples/text_display.js',
+    YoutubeDisplay: './example/samples/youtube_display.js'
   },
   output: {
     filename:  '[name].js',

@@ -1,7 +1,6 @@
 "use strict";
 import { Display } from "../../src/display.js";
 
-
 class YoutubeDisplay extends Display {
 
   constructor(args) {
@@ -15,7 +14,6 @@ class YoutubeDisplay extends Display {
 
     this.t_ratio = args.t_ratio || 1000;
     this.video_id = args.video_id;
-
   }
 
   stopVideo(){
@@ -35,10 +33,15 @@ class YoutubeDisplay extends Display {
   }
 
   setupPlayer(){
-      //Add in from YoutubeDisplay
-      //TODO - get explaination
+    this.player = new YT.Player(this.player_id, {
+      height: '390',
+      width: '640',
+      videoId: this.video_id,
+      events: {
+        'onReady': this.setAsReady.bind(this)
+      }
+    });
   }
-
 
   setup(){
     this.prepareTimeline();
@@ -57,6 +60,5 @@ class YoutubeDisplay extends Display {
   }
 
 };
-
 
 module.exports = YoutubeDisplay;
