@@ -23,12 +23,11 @@
   <link rel="stylesheet" href="/css/skeleton.css">
   <!-- JS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <script src="/js/require.js" charset="utf-8"></script>
   <script src="/js/jquery-3.2.1.min.js" charset="utf-8"></script>
 
   <!-- Modules below -->
   <script src="/js/Displays.js" charset="utf-8"></script>
-  <script src="/js/youtube_display.js" charset="utf-8"></script>
+  <script src="/samples/dist/YoutubeDisplay.js" charset="utf-8"></script>
   <script src="/samples/dist/TextDisplay.js" charset="utf-8"></script>
 
   <style>
@@ -65,7 +64,7 @@
 
       <script>
 
-      var vd = new YoutubeDisplay({player_id: "player", video_id: "KOdfpbnWLVo",
+      var vd = new YoutubeDisplay({player_id: "player", video_id: "OrCOqcpFyIs",
                                     timeline_treshold: 2});
 
 
@@ -84,6 +83,7 @@
       }
 
       td.setAsReady();
+
       var DisplayCoordinator = Displays.DisplayCoordinator;
       var lesson_coordinator = new DisplayCoordinator({
         stage: {
