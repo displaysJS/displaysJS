@@ -81,22 +81,18 @@
                         canvas_class: "sideView"});
 
       var htmlTest =
-
       '<div class="test">' +
         '<a href="https://en.wikipedia.org/wiki/%22Hello,_World!%22_program">"Hello, World!" program - Wikipedia</a>' +
       '</div>'
 
-
-      td.prepareTimeline = function() {
-        this.timeline.addTimeAction(4, this.showRichText.bind(this), htmlTest);
-        this.timeline.addTimeAction(10, this.showRichText.bind(this), '<a href="https://www.python.org/">Welcome to Python.org</a></h4><p>The official home of the Python Programming Language</p>');
-        this.timeline.addTimeAction(12, this.showRichText.bind(this), '<a href="https://www.howtogeek.com/140679/beginner-geek-how-to-start-using-the-linux-terminal/">How to user Linux Terminal</a><br /><a href="http://www.computerhope.com/issues/chusedos.htm">How to use CMD</a>');
-        this.timeline.addTimeAction(18, this.showRichText.bind(this), '<a href="https://www.python.org/downloads/">Download Python</a></h4><p>The official home of the Python Programming Language</p>');
-        this.timeline.addTimeAction(30, this.showRichText.bind(this), '<a href="https://en.wikipedia.org/wiki/Vim_(text_editor)">Vim (text editor) - Wikipedia</a></h4><p>Vim (; a contraction of Vi IMproved) is a clone of Bill Joy\'s vi text editor program for Unix. It was written by Bram Moolenaar based on source for a port of the Stevie editor to the Amiga and first released publicly in 1991.</p>');
-        this.timeline.addTimeAction(41, this.showRichText.bind(this), '<a href="https://www.python.org/doc/">Python Docs</a>');
-      }
-
+      td.recordHTML(4, htmlTest);
+      td.recordHTML(10, '<a href="https://www.python.org/">Welcome to Python.org</a></h4><p>The official home of the Python Programming Language</p>');
+      td.recordHTML(12, '<a href="https://www.howtogeek.com/140679/beginner-geek-how-to-start-using-the-linux-terminal/">How to user Linux Terminal</a><br /><a href="http://www.computerhope.com/issues/chusedos.htm">How to use CMD</a>');
+      td.recordHTML(18, '<a href="https://www.python.org/downloads/">Download Python</a></h4><p>The official home of the Python Programming Language</p>');
+      td.recordHTML(30, '<a href="https://en.wikipedia.org/wiki/Vim_(text_editor)">Vim (text editor) - Wikipedia</a></h4><p>Vim (; a contraction of Vi IMproved) is a clone of Bill Joy\'s vi text editor program for Unix. It was written by Bram Moolenaar based on source for a port of the Stevie editor to the Amiga and first released publicly in 1991.</p>');
+      td.recordHTML(41, '<a href="https://www.python.org/doc/">Python Docs</a>');
       td.setAsReady();
+
 
       var DisplayCoordinator = Displays.DisplayCoordinator;
       var lesson_coordinator = new DisplayCoordinator({

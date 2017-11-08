@@ -23,7 +23,6 @@ class TimeAction {
      * Trigger an action by calling *func* and passing it *args* passed from initialization.
      */
     trigger(){
-      console.log(this, this.args);
       this.action.apply(this, this.args);
     }
 };

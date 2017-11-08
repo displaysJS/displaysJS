@@ -48,6 +48,18 @@ class TextDisplay extends Display {
     handleTick() {
       this.timeline.callTimeAction(this.context.time);
     }
+
+
+
+    recordText(time, text) {
+      this.timeline.addTimeAction(time, this.showText.bind(this), text);
+
+    }
+    recordHTML(time, html) {
+      this.timeline.addTimeAction(time, this.showRichText.bind(this), html);
+    }
+
+
     /**
      * prepareTimeline is placeholder for how a TextDisplay  instance loads
      * time actions to it's timeline.

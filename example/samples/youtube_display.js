@@ -22,16 +22,13 @@ class YoutubeDisplay extends Display {
     clearInterval(this.counter);
   }
 
-  prepareTimeline(){
-      console.log("Prepare Timeline");
-  }
-
   handleTick(){
     var th = this.timeline.treshold;
     var t = this.context.time;
     this.timeline.callTimeAction(this.context.time);
   }
 
+  //Controll the size yourself you bums
   setupPlayer(){
     this.player = new YT.Player(this.player_id, {
       height: '390',
@@ -43,8 +40,16 @@ class YoutubeDisplay extends Display {
     });
   }
 
+  tick() {
+    if (this.isPrimaryDisplay()) {
+      this.context.emitter.emit('tick');
+      //Replaced tick with the youtube based time
+      this.context.time = Math.round(this.player.getCurrentTime());
+      console.log(this.context.time);
+    }
+  }
+
   setup(){
-    this.prepareTimeline();
     this.firstScriptTag = document.getElementsByTagName('script')[0];
     this.firstScriptTag.parentNode.insertBefore(this.script_tag, this.firstScriptTag);
     window.onYouTubeIframeAPIReady = this.setupPlayer.bind(this);
@@ -58,7 +63,6 @@ class YoutubeDisplay extends Display {
     this.player.playVideo();
     this.counter = setInterval(this.tick.bind(this), this.t_ratio);
   }
-
 };
 
 module.exports = YoutubeDisplay;

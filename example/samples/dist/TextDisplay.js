@@ -411,7 +411,6 @@ var TimeAction = function () {
     }, {
         key: "trigger",
         value: function trigger() {
-            console.log(this, this.args);
             this.action.apply(this, this.args);
         }
     }]);
@@ -611,6 +610,17 @@ var TextDisplay = function (_Display) {
     value: function handleTick() {
       this.timeline.callTimeAction(this.context.time);
     }
+  }, {
+    key: "recordText",
+    value: function recordText(time, text) {
+      this.timeline.addTimeAction(time, this.showText.bind(this), text);
+    }
+  }, {
+    key: "recordHTML",
+    value: function recordHTML(time, html) {
+      this.timeline.addTimeAction(time, this.showRichText.bind(this), html);
+    }
+
     /**
      * prepareTimeline is placeholder for how a TextDisplay  instance loads
      * time actions to it's timeline.

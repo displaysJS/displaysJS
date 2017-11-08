@@ -411,7 +411,6 @@ var TimeAction = function () {
     }, {
         key: "trigger",
         value: function trigger() {
-            console.log(this, this.args);
             this.action.apply(this, this.args);
         }
     }]);
@@ -570,17 +569,15 @@ var YoutubeDisplay = function (_Display) {
       clearInterval(this.counter);
     }
   }, {
-    key: "prepareTimeline",
-    value: function prepareTimeline() {
-      console.log("Prepare Timeline");
-    }
-  }, {
     key: "handleTick",
     value: function handleTick() {
       var th = this.timeline.treshold;
       var t = this.context.time;
       this.timeline.callTimeAction(this.context.time);
     }
+
+    //Controll the size yourself you bums
+
   }, {
     key: "setupPlayer",
     value: function setupPlayer() {
@@ -594,9 +591,18 @@ var YoutubeDisplay = function (_Display) {
       });
     }
   }, {
+    key: "tick",
+    value: function tick() {
+      if (this.isPrimaryDisplay()) {
+        this.context.emitter.emit('tick');
+        //Replaced tick with the youtube based time
+        this.context.time = Math.round(this.player.getCurrentTime());
+        console.log(this.context.time);
+      }
+    }
+  }, {
     key: "setup",
     value: function setup() {
-      this.prepareTimeline();
       this.firstScriptTag = document.getElementsByTagName('script')[0];
       this.firstScriptTag.parentNode.insertBefore(this.script_tag, this.firstScriptTag);
       window.onYouTubeIframeAPIReady = this.setupPlayer.bind(this);
