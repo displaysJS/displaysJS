@@ -39,10 +39,13 @@
       border-radius: 5px;
     }
 
-    .body{
+    .test{
+      width: 200px;
+      height: 400px;
       background-color: pink;
-      background-image: url("http://i0.kym-cdn.com/entries/icons/mobile/000/013/564/doge.jpg");
+      font-size: 40px;
     }
+
   </style>
 
   <!-- Favicon
@@ -69,7 +72,7 @@
 
       <script>
 
-      var vd = new YoutubeDisplay({player_id: "player", video_id: "OrCOqcpFyIs",
+      var vd = new YoutubeDisplay({player_id: "player", video_id: "ODHqxNU_sYQ",
                                     timeline_treshold: 2});
 
 
@@ -77,13 +80,20 @@
       td.setProperties({canvas_id: "textdisplay2",
                         canvas_class: "sideView"});
 
+      var htmlTest =
+
+      '<div class="test">' +
+        '<a href="https://en.wikipedia.org/wiki/%22Hello,_World!%22_program">"Hello, World!" program - Wikipedia</a>' +
+      '</div>'
+
+
       td.prepareTimeline = function() {
-        this.timeline.addTimeAction(4, this.showRichText.bind(this), '<a href="https://en.wikipedia.org/wiki/%22Hello,_World!%22_program">"Hello, World!" program - Wikipedia</a>');
-        this.timeline.addTimeAction(25, this.showRichText.bind(this), '<a href="https://www.python.org/">Welcome to Python.org</a></h4><p>The official home of the Python Programming Language</p>');
-        this.timeline.addTimeAction(43, this.showRichText.bind(this), '<a href="https://www.howtogeek.com/140679/beginner-geek-how-to-start-using-the-linux-terminal/">How to user Linux Terminal</a><br /><a href="http://www.computerhope.com/issues/chusedos.htm">How to use CMD</a>');
-        this.timeline.addTimeAction(66, this.showRichText.bind(this), '<a href="https://www.python.org/downloads/">Download Python</a></h4><p>The official home of the Python Programming Language</p>');
-        this.timeline.addTimeAction(108, this.showRichText.bind(this), '<a href="https://en.wikipedia.org/wiki/Vim_(text_editor)">Vim (text editor) - Wikipedia</a></h4><p>Vim (; a contraction of Vi IMproved) is a clone of Bill Joy\'s vi text editor program for Unix. It was written by Bram Moolenaar based on source for a port of the Stevie editor to the Amiga and first released publicly in 1991.</p>');
-        this.timeline.addTimeAction(108, this.showRichText.bind(this), '<a href="https://www.python.org/doc/">Python Docs</a>');
+        this.timeline.addTimeAction(4, this.showRichText.bind(this), htmlTest);
+        this.timeline.addTimeAction(10, this.showRichText.bind(this), '<a href="https://www.python.org/">Welcome to Python.org</a></h4><p>The official home of the Python Programming Language</p>');
+        this.timeline.addTimeAction(12, this.showRichText.bind(this), '<a href="https://www.howtogeek.com/140679/beginner-geek-how-to-start-using-the-linux-terminal/">How to user Linux Terminal</a><br /><a href="http://www.computerhope.com/issues/chusedos.htm">How to use CMD</a>');
+        this.timeline.addTimeAction(18, this.showRichText.bind(this), '<a href="https://www.python.org/downloads/">Download Python</a></h4><p>The official home of the Python Programming Language</p>');
+        this.timeline.addTimeAction(30, this.showRichText.bind(this), '<a href="https://en.wikipedia.org/wiki/Vim_(text_editor)">Vim (text editor) - Wikipedia</a></h4><p>Vim (; a contraction of Vi IMproved) is a clone of Bill Joy\'s vi text editor program for Unix. It was written by Bram Moolenaar based on source for a port of the Stevie editor to the Amiga and first released publicly in 1991.</p>');
+        this.timeline.addTimeAction(41, this.showRichText.bind(this), '<a href="https://www.python.org/doc/">Python Docs</a>');
       }
 
       td.setAsReady();
