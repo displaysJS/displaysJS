@@ -49,12 +49,10 @@ class TextDisplay extends Display {
       this.timeline.callTimeAction(this.context.time);
     }
 
-
-
     recordText(time, text) {
       this.timeline.addTimeAction(time, this.showText.bind(this), text);
-
     }
+
     recordHTML(time, html) {
       this.timeline.addTimeAction(time, this.showRichText.bind(this), html);
     }
