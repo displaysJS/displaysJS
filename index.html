@@ -2,9 +2,46 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>DisplayJS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Basic css calls-->
+    <link rel="stylesheet" href="example/css/styles.css">
+
+    <title>DisplayJS Home</title>
   </head>
   <body>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laboriosam consectetur numquam vero sunt magni, repellat sed fugit explicabo autem repudiandae facere quae itaque reiciendis eaque earum unde, error, debitis provident!</p>
+      <section class="Home">
+
+        <div class="display display-1">
+          <h1>Display One</h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores sequi quo cupiditate aliquid, dolore obcaecati tempore optio, natus odit rerum necessitatibus accusantium sit eligendi delectus commodi eaque amet blanditiis a.</p>
+        </div>
+
+        <div class="display display-2">
+          <h1>Display Two</h1>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        </div>
+
+        <div class="slider-wrapper center">
+          <h1>Slider Coming Soon To Theaters Near You</h1>
+          <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+          <p>Value: <span id="demo"></span></p>
+        </div>
+      </section>
+
+      <section class="hover--nav">
+
+      </section>
+
+      <script>
+          var slider = document.getElementById("myRange");
+          var output = document.getElementById("demo");
+          output.innerHTML = slider.value;
+
+          slider.oninput = function() {
+            output.innerHTML = this.value;
+          }
+      </script>
+
   </body>
 </html>
