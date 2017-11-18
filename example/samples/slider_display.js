@@ -6,19 +6,26 @@ class SliderDisplay extends Display {
   constructor(args) {
     super(args);
     this.slider = args.slider;
-    this.slider_id = args.slider_id;
+    this.limit  = args.range_limit;
   }
 
   tick() {
     if (this.isPrimaryDisplay()) {
       this.context.emitter.emit('tick');
       this.context.time = this.slider.val();
-      console.log("Tick was here");
     }
   }
 
   play(){
     $(this.slider).on('change', this.tick.bind(this));
+    setInterval(function(){
+        this.tick.bind(this);
+        var value = Math.floor(this.slider.val());
+        this.slider.val(value+1);
+        if(this.slider.val() >= this.limit) {
+            this.slider.val(1);
+        }
+    }.bind(this), 1000);
   }
 };
 
