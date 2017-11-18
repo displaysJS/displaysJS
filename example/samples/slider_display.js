@@ -13,21 +13,12 @@ class SliderDisplay extends Display {
     if (this.isPrimaryDisplay()) {
       this.context.emitter.emit('tick');
       this.context.time = this.slider.val();
+      console.log("Tick was here");
     }
   }
 
   play(){
-    console.log("Outside Function Call: ");
-    console.log(this);
-    console.log(this.slider);
-
-    $(this.slider).on('change', function() {
-      this.tick.bind(this);
-      console.log("Function Call: ");
-      console.log(this);
-      console.log(this.slider);
-    });
-
+    $(this.slider).on('change', this.tick.bind(this));
   }
 };
 
