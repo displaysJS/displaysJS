@@ -6,7 +6,7 @@ html, body {
   height: 100%;
   width: 100%;
   padding: 0;
-  font-family: sans-serif;
+  font-family: "Raleway",sans-serif;
 }
 
 
@@ -14,12 +14,56 @@ html, body {
  * --------------------------------------------------------
  */
 h1{
+  font-size: 32px;
   display: block;
 }
 
 p{
-
+  font-size: 20px;
 }
+
+/* Nav Bar
+ * --------------------------------------------------------
+ */
+#footer{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
+}
+
+.link{
+  width: 33.3%;
+  float: left;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+li{
+  text-align: center;
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 20px 50px;
+  text-decoration: none;
+}
+
+li a:hover{
+  background-color: #111;
+}
+
 
 /* Reusable
  * --------------------------------------------------------
@@ -27,7 +71,7 @@ p{
 .center{
   margin: auto;
   width: 50%;
-  border: 3px solid red;
+  border: 3px ;
   padding: 10px;
 }
 
@@ -44,26 +88,27 @@ section{
   box-sizing:border-box;
 }
 
-.home{
-  display: block;
-  position: absolute;
+.content{
+  text-align: center;
+  height: 80%;
 }
 
 .display{
-  border: 3px solid red;
+  box-sizing: border-box;
   margin-top: 10px;
 	background-color: white;
-	width: 400px;
-	height: 300px;
+  width: 90%;
 	padding: 30px 33px;
 	margin-left: 50px;
 	margin-right: 106px;
   box-shadow: 0 0 20px 0 rgba(79, 170, 177, .15);
+  display: inline-block;
 }
 
 /*---------------The Slider--------------*/
 .slider-wrapper{
   margin-top: 20px;
+  margin-bottom: 100px;
   width: 40%;
 }
 
@@ -89,7 +134,7 @@ section{
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background: #4CAF50;
+    background: black;
     cursor: pointer;
 }
 
@@ -97,6 +142,6 @@ section{
     width: 25px;
     height: 25px;
     border-radius: 50%;
-    background: #4CAF50;
+    background: black;
     cursor: pointer;
 }

@@ -6,30 +6,49 @@
 
     <!--Basic css calls-->
     <link rel="stylesheet" href="example/css/styles.css">
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+    <script src="/example/js/jquery-3.2.1.min.js" charset="utf-8"></script>
+
+    <!-- Modules below -->
+    <script src="/example/js/Displays.js" charset="utf-8"></script>
+    <script src="/example/samples/dist/YoutubeDisplay.js" charset="utf-8"></script>
+    <script src="/example/samples/dist/TextDisplay.js" charset="utf-8"></script>
+    <script src="/example/samples/dist/SliderDisplay.js" charset="utf-8"></script>
 
     <title>DisplayJS Home</title>
   </head>
   <body>
+
       <section class="Home">
 
-        <div class="display display-1">
-          <h1>Display One</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolores sequi quo cupiditate aliquid, dolore obcaecati tempore optio, natus odit rerum necessitatibus accusantium sit eligendi delectus commodi eaque amet blanditiis a.</p>
-        </div>
+        <div class="content">
+          <div id="example-stage"></div>
+        <!--
+          <div class="display">
+            <h1>Display One</h1>
+            <div id="player1"></div>
+          </div>
 
-        <div class="display display-2">
-          <h1>Display Two</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <div class="display">
+            <h1>Display Two</h1>
+            <div id="player2"></div>
+          </div>
+        -->
         </div>
 
         <div class="slider-wrapper center">
-          <h1>Slider Coming Soon To Theaters Near You</h1>
           <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
           <p>Value: <span id="demo"></span></p>
         </div>
-      </section>
 
-      <section class="hover--nav">
+        <div id="footer" class="center">
+          <ul>
+            <li class="link"><a href="example/index.html">Getting Started</a></li>
+            <li class="link"><a href="docs/index.html">Documentation</a></li>
+            <li class="link"><a href="https://github.com/displaysJS/displaysJS">Source Code</a></li>
+          </ul>
+        </div>
 
       </section>
 
@@ -41,6 +60,49 @@
           slider.oninput = function() {
             output.innerHTML = this.value;
           }
+      </script>
+
+      <script>
+
+      var td = new TextDisplay({});
+      td.setProperties({canvas_id: "textdisplay",
+                        canvas_class: "display"});
+
+      var td2 = new TextDisplay({});
+      td2.setProperties({canvas_id: "textdisplay2",
+                          canvas_class: "display"});
+
+      var slider = new SliderDisplay({slider: $("#demo"),
+                                      slider_id: "demo"});
+      slider.setAsReady();
+
+      td.recordHTML(10, '<a href="https://www.python.org/">Welcome to Python.org</a></h4><p>The official home of the Python Programming Language</p>');
+      td.recordHTML(12, '<a href="https://www.howtogeek.com/140679/beginner-geek-how-to-start-using-the-linux-terminal/">How to user Linux Terminal</a><br /><a href="http://www.computerhope.com/issues/chusedos.htm">How to use CMD</a>');
+      td.recordHTML(18, '<a href="https://www.python.org/downloads/">Download Python</a></h4><p>The official home of the Python Programming Language</p>');
+      td.recordHTML(30, '<a href="https://en.wikipedia.org/wiki/Vim_(text_editor)">Vim (text editor) - Wikipedia</a></h4><p>Vim (; a contraction of Vi IMproved) is a clone of Bill Joy\'s vi text editor program for Unix. It was written by Bram Moolenaar based on source for a port of the Stevie editor to the Amiga and first released publicly in 1991.</p>');
+      td.recordHTML(41, '<a href="https://www.python.org/doc/">Python Docs</a>');
+      td.setAsReady();
+
+      td2.recordHTML(41, '<a href="https://www.python.org/">Welcome to Python.org</a></h4><p>The official home of the Python Programming Language</p>');
+      td2.recordHTML(30, '<a href="https://www.howtogeek.com/140679/beginner-geek-how-to-start-using-the-linux-terminal/">How to user Linux Terminal</a><br /><a href="http://www.computerhope.com/issues/chusedos.htm">How to use CMD</a>');
+      td2.recordHTML(18, '<a href="https://www.python.org/downloads/">Download Python</a></h4><p>The official home of the Python Programming Language</p>');
+      td2.recordHTML(12, '<a href="https://en.wikipedia.org/wiki/Vim_(text_editor)">Vim (text editor) - Wikipedia</a></h4><p>Vim (; a contraction of Vi IMproved) is a clone of Bill Joy\'s vi text editor program for Unix. It was written by Bram Moolenaar based on source for a port of the Stevie editor to the Amiga and first released publicly in 1991.</p>');
+      td2.recordHTML(10, '<a href="https://www.python.org/doc/">Python Docs</a>');
+      td2.setAsReady();
+
+      var DisplayCoordinator = Displays.DisplayCoordinator;
+      var example_coordinator = new DisplayCoordinator({
+        stage: {
+          add: function(item){
+            document.getElementById("example-stage").append(item);
+          }
+        },
+        name: "ExampleCoordinator",
+        timeline_treshold: 1,
+        displays: [td, td2, slider],
+        primary_display: slider
+      });
+      example_coordinator.perform();
       </script>
 
   </body>

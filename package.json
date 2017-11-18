@@ -17,7 +17,7 @@
     "lint-docs": "documentation lint src/**",
     "serve-docs": "documentation serve src/**",
     "watch-docs": "documentation serve --watch src/**",
-    "serve-example": "lite-server --baseDir='example'"
+    "serve-example": "lite-server"
   },
   "dependencies": {
     "eventemitter2": "^4.1.0"
