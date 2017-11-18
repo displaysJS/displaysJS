@@ -17,12 +17,6 @@ class SliderDisplay extends Display {
   }
 
   play(){
-    $("#" + this.slider_id).on('change', function() {
-      this.tick.bind(this);
-      console.log("Function Call: ");
-      console.log(this);
-      console.log(this.slider);
-    });
     console.log("Outside Function Call: ");
     console.log(this);
     console.log(this.slider);
