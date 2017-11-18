@@ -27,7 +27,7 @@
         </div>
 
         <div class="slider-wrapper center">
-          <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+          <input type="range" min="1" max="100" value="1" class="slider" id="myRange">
           <p>Value: <span id="demo"></span></p>
         </div>
 
@@ -58,7 +58,12 @@
       var td2 = new TextDisplay({});
       td2.setProperties({canvas_id: "textdisplay2",
                           canvas_class: "display"});
+<<<<<<< HEAD
       var slider = new SliderDisplay({slider: $("#myRange")});
+=======
+
+      var slider = new SliderDisplay({slider: $("#myRange"), range_limit: 100});
+>>>>>>> c0980a9ba630a07566e4a779b1975f6bf96db73f
       slider.setAsReady();
 
       td.recordHTML(10, '<a href="https://www.python.org/">Welcome to Python.org</a></h4><p>The official home of the Python Programming Language</p>');
