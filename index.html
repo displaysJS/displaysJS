@@ -27,7 +27,6 @@
 
         <div class="slider-wrapper center">
           <input type="range" min="1" max="100" value="1" class="slider" id="myRange">
-          <p>Value: <span id="demo"></span></p>
         </div>
 
         <div id="footer" class="center">
@@ -39,19 +38,6 @@
         </div>
       </section>
 
-<<<<<<< HEAD
-=======
-      <script>
-          var slider = document.getElementById("myRange");
-          var output = document.getElementById("demo");
-          output.innerHTML = slider.value;
-
-          slider.oninput = function() {
-            output.innerHTML = this.value;
-          }
-      </script>
-
->>>>>>> 8bf36c2c74a3502aa1054d7b0a885f35b1080b62
       <script>
 
       var td = new TextDisplay({});
@@ -65,18 +51,19 @@
       var slider = new SliderDisplay({slider: $("#myRange"), range_limit: 100});
       slider.setAsReady();
 
-      td.recordHTML(1, '<a href="https://www.python.org/">Welcome to Python.org</a></h4><p>The official home of the Python Programming Language</p>');
-      td.recordHTML(2, '<a href="https://www.howtogeek.com/140679/beginner-geek-how-to-start-using-the-linux-terminal/">How to user Linux Terminal</a><br /><a href="http://www.computerhope.com/issues/chusedos.htm">How to use CMD</a>');
-      td.recordHTML(3, '<a href="https://www.python.org/downloads/">Download Python</a></h4><p>The official home of the Python Programming Language</p>');
-      td.recordHTML(10, '<a href="https://en.wikipedia.org/wiki/Vim_(text_editor)">Vim (text editor) - Wikipedia</a></h4><p>Vim (; a contraction of Vi IMproved) is a clone of Bill Joy\'s vi text editor program for Unix. It was written by Bram Moolenaar based on source for a port of the Stevie editor to the Amiga and first released publicly in 1991.</p>');
-      td.recordHTML(41, '<a href="https://www.python.org/doc/">Python Docs</a>');
+      td.recordHTML(1, '<p>Thing1 : Hey there how are things going?</p>');
+      td.recordHTML(10, '<p>Thing1: Meh so far so good</p>');
+      td.recordHTML(12, '<p>Thing1: but hey did you hear about those cool guys making DisplayJS</p>');
+      td.recordHTML(22, '<p>Thing1: Ya them I heard theyre awesome</p>');
+      td.recordHTML(32, '<p>Thing1: Its the most amazing thing right a freckin dynamic screen</p>');
+      td.recordHTML(42, '<p>Thing1: Yup look at them now looking at us through that screen</p>');
       td.setAsReady();
 
-      td2.recordHTML(41, '<a href="https://www.python.org/">Welcome to Python.org</a></h4><p>The official home of the Python Programming Language</p>');
-      td2.recordHTML(30, '<a href="https://www.howtogeek.com/140679/beginner-geek-how-to-start-using-the-linux-terminal/">How to user Linux Terminal</a><br /><a href="http://www.computerhope.com/issues/chusedos.htm">How to use CMD</a>');
-      td2.recordHTML(18, '<a href="https://www.python.org/downloads/">Download Python</a></h4><p>The official home of the Python Programming Language</p>');
-      td2.recordHTML(12, '<a href="https://en.wikipedia.org/wiki/Vim_(text_editor)">Vim (text editor) - Wikipedia</a></h4><p>Vim (; a contraction of Vi IMproved) is a clone of Bill Joy\'s vi text editor program for Unix. It was written by Bram Moolenaar based on source for a port of the Stevie editor to the Amiga and first released publicly in 1991.</p>');
-      td2.recordHTML(10, '<a href="https://www.python.org/doc/">Python Docs</a>');
+      td2.recordHTML(5, '<p>Thing2: Pretty well how about you?</p>');
+      td2.recordHTML(18, '<p>Thing2: Oh that Wilfred and Shihab fellow</p>');
+      td2.recordHTML(28, '<p>Thing2: Ya I heard that too. But back to displayJS</p>');
+      td2.recordHTML(38, '<p>Thing2: That sounded too good to be true but look at them now</p>');
+      td2.recordHTML(50, '<p>Thing2: Yes WE CAN SEE YOU</p>');
       td2.setAsReady();
 
       var DisplayCoordinator = Displays.DisplayCoordinator;
