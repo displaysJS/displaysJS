@@ -24,17 +24,6 @@
 
         <div class="content">
           <div id="example-stage"></div>
-        <!--
-          <div class="display">
-            <h1>Display One</h1>
-            <div id="player1"></div>
-          </div>
-
-          <div class="display">
-            <h1>Display Two</h1>
-            <div id="player2"></div>
-          </div>
-        -->
         </div>
 
         <div class="slider-wrapper center">
@@ -63,15 +52,12 @@
       </script>
 
       <script>
-
       var td = new TextDisplay({});
       td.setProperties({canvas_id: "textdisplay",
                         canvas_class: "display"});
-
       var td2 = new TextDisplay({});
       td2.setProperties({canvas_id: "textdisplay2",
                           canvas_class: "display"});
-
       var slider = new SliderDisplay({slider: $("#myRange")});
       slider.setAsReady();
 
