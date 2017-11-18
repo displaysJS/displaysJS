@@ -18,8 +18,8 @@ class SliderDisplay extends Display {
 
   play(){
     $(this.slider).on('change', this.tick.bind(this));
-    setInterval(function(){
-        this.tick.bind(this);
+    setInterval(function() {
+        this.tick();
         var value = Math.floor(this.slider.val());
         this.slider.val(value+1);
         if(this.slider.val() >= this.limit) {

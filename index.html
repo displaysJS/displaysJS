@@ -27,6 +27,7 @@
 
         <div class="slider-wrapper center">
           <input type="range" min="1" max="100" value="1" class="slider" id="myRange">
+          <p>Value: <span id="demo"></span></p>
         </div>
 
         <div id="footer" class="center">
@@ -38,13 +39,29 @@
         </div>
       </section>
 
+<<<<<<< HEAD
+=======
       <script>
+          var slider = document.getElementById("myRange");
+          var output = document.getElementById("demo");
+          output.innerHTML = slider.value;
+
+          slider.oninput = function() {
+            output.innerHTML = this.value;
+          }
+      </script>
+
+>>>>>>> 8bf36c2c74a3502aa1054d7b0a885f35b1080b62
+      <script>
+
       var td = new TextDisplay({});
       td.setProperties({canvas_id: "textdisplay",
                         canvas_class: "display"});
+
       var td2 = new TextDisplay({});
       td2.setProperties({canvas_id: "textdisplay2",
                           canvas_class: "display"});
+
       var slider = new SliderDisplay({slider: $("#myRange"), range_limit: 100});
       slider.setAsReady();
 
